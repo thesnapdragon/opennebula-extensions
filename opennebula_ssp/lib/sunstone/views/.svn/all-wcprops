@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/45/opennebula_ssp/lib/sunstone/views
+END
+login.erb
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/45/opennebula_ssp/lib/sunstone/views/login.erb
+END
+_login_ssp.erb
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/45/opennebula_ssp/lib/sunstone/views/_login_ssp.erb
+END
+index.erb
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/45/opennebula_ssp/lib/sunstone/views/index.erb
+END

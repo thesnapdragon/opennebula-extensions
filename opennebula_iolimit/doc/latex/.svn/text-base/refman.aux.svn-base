@@ -1,0 +1,43 @@
+\relax 
+\ifx\hyper@anchor\@undefined
+\global \let \oldcontentsline\contentsline
+\gdef \contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global \let \oldnewlabel\newlabel
+\gdef \newlabel#1#2{\newlabelxx{#1}#2}
+\gdef \newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\let \contentsline\oldcontentsline
+\let \newlabel\oldnewlabel}
+\else
+\global \let \hyper@last\relax 
+\fi
+
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}OpenNebula IO limit hook}{1}{chapter.1}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{index}{{1}{1}{OpenNebula IO limit hook\relax }{chapter.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}DESCRIPTION}{1}{section.1.1}}
+\newlabel{index_desc}{{1.1}{1}{DESCRIPTION\relax }{section.1.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}CONTENTS:}{1}{section.1.2}}
+\newlabel{index_contents}{{1.2}{1}{CONTENTS:\relax }{section.1.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Setup}{3}{chapter.2}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{setup}{{2}{3}{Setup\relax }{chapter.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Developer documentation}{5}{chapter.3}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{doc}{{3}{5}{Developer documentation\relax }{chapter.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}GLOBAL DEFINITIONS}{5}{section.3.1}}
+\newlabel{doc_def}{{3.1}{5}{GLOBAL DEFINITIONS\relax }{section.3.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}FUNCTIONS}{5}{section.3.2}}
+\newlabel{doc_func}{{3.2}{5}{FUNCTIONS\relax }{section.3.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}File Index}{7}{chapter.4}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}File List}{7}{section.4.1}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}File Documentation}{9}{chapter.5}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}iolimit.sh File Reference}{9}{section.5.1}}
+\newlabel{iolimit_8sh}{{5.1}{9}{iolimit.sh File Reference\relax }{section.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Detailed Description}{9}{subsection.5.1.1}}

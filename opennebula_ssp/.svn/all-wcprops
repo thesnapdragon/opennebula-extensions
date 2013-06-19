@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/svn/!svn/ver/51/opennebula_ssp
+END
+install.sh
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/50/opennebula_ssp/install.sh
+END
+ssp_for_opennebula.patch
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/51/opennebula_ssp/ssp_for_opennebula.patch
+END

@@ -1,0 +1,323 @@
+\hypertarget{classSSP__Helper}{
+\section{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r \-C\-l\-a\-s\-s \-R\-e\-f\-e\-r\-e\-n\-c\-e}
+\label{classSSP__Helper}\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+}
+
+
+Helper class to call methods in \hyperlink{namespaceSSPCloudAuth}{\-S\-S\-P\-C\-l\-o\-u\-d\-A\-u\-t\-h} module.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-d\-e\-f \hyperlink{classSSP__Helper_ab908821d6ce3055ada3983a8351dd08e}{\-i\-n\-i\-t\-i\-a\-l\-i\-z\-e}
+\begin{DoxyCompactList}\small\item\em initalize some instance variable \end{DoxyCompactList}\item 
+\-d\-e\-f \hyperlink{classSSP__Helper_af8371cbe8a7fe0ff2caf12a6e8cdee52}{\-c\-r\-e\-a\-t\-e\_\-\-u\-s\-e\-r}
+\begin{DoxyCompactList}\small\item\em creating new user \end{DoxyCompactList}\item 
+\-d\-e\-f \hyperlink{classSSP__Helper_a0da2857b0ce07d6fff802ac4f0ae2d57}{\-u\-p\-d\-a\-t\-e\_\-\-g\-r\-o\-u\-p}
+\begin{DoxyCompactList}\small\item\em update user's group or create it's group \end{DoxyCompactList}\item 
+\-d\-e\-f \hyperlink{classSSP__Helper_a6f6cfdeb2e1d3a683bfec4dacdfce6a0}{\-g\-e\-t\_\-\-c\-r\-e\-d\-e\-n\-t\-i\-a\-l}
+\begin{DoxyCompactList}\small\item\em get username and password from \$\-O\-N\-E\_\-\-A\-U\-T\-H file \end{DoxyCompactList}\item 
+\-d\-e\-f \hyperlink{classSSP__Helper_a5cda10befd53265f17243d252f0e0af7}{\-g\-e\-t\_\-\-u\-s\-e\-r\-i\-d}
+\begin{DoxyCompactList}\small\item\em get user's ID \end{DoxyCompactList}\item 
+\-d\-e\-f \hyperlink{classSSP__Helper_acf8aec3cb3b77cc06caf4c968969a604}{\-g\-e\-t\_\-\-g\-r\-o\-u\-p\-i\-d}
+\begin{DoxyCompactList}\small\item\em get group ID of a group \end{DoxyCompactList}\item 
+\-d\-e\-f \hyperlink{classSSP__Helper_ad8f0c7e7c6523d22c34a79c51998a7c1}{\-c\-r\-e\-a\-t\-e\_\-\-g\-r\-o\-u\-p}
+\begin{DoxyCompactList}\small\item\em creating new group \end{DoxyCompactList}\item 
+\-d\-e\-f \hyperlink{classSSP__Helper_aa20a57b52c8940fce3a398ea3cfbcb82}{\-g\-e\-n\-e\-r\-a\-t\-e\_\-\-p\-a\-s\-s\-w\-o\-r\-d}
+\begin{DoxyCompactList}\small\item\em create random password for new users \end{DoxyCompactList}\item 
+\-d\-e\-f \hyperlink{classSSP__Helper_ada29927d2e44dddae158c49478929059}{\-g\-e\-t\_\-\-s\-s\-p\_\-\-s\-e\-s\-s\-i\-o\-n}
+\begin{DoxyCompactList}\small\item\em get ssp session variable in \-J\-S\-O\-N format \end{DoxyCompactList}\item 
+\-d\-e\-f \hyperlink{classSSP__Helper_a4d39b23ac2bf42cc38f82e77b1214a7b}{\-a\-u\-t\-h\-o\-r\-i\-z\-e\-d\-?}
+\begin{DoxyCompactList}\small\item\em is user authorized in ssp? \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classSSP__Helper_a4fd8d976d2074c90486edf102c4ba8c0}{\-o\-n\-e\_\-\-x\-m\-l\-r\-p\-c}
+\item 
+\hyperlink{classSSP__Helper_a78aae93c2b5611ab9a6948fa06b389f6}{\-o\-n\-e\_\-\-a\-u\-t\-h}
+\item 
+\hyperlink{classSSP__Helper_ae10644190226b85b30fecef33fb3b6df}{\-o\-n\-e\_\-\-l\-o\-c\-a\-t\-i\-o\-n}
+\item 
+\hyperlink{classSSP__Helper_ac2eb114aa8118d494865309bf4dbf84b}{\-c\-o\-n\-f\-i\-g}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Helper class to call methods in \hyperlink{namespaceSSPCloudAuth}{\-S\-S\-P\-C\-l\-o\-u\-d\-A\-u\-t\-h} module. 
+
+Definition at line \-1\-8 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classSSP__Helper_a4d39b23ac2bf42cc38f82e77b1214a7b}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-a\-u\-t\-h\-o\-r\-i\-z\-e\-d\-?@{\-a\-u\-t\-h\-o\-r\-i\-z\-e\-d\-?}}
+\index{\-a\-u\-t\-h\-o\-r\-i\-z\-e\-d\-?@{\-a\-u\-t\-h\-o\-r\-i\-z\-e\-d\-?}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-a\-u\-t\-h\-o\-r\-i\-z\-e\-d\-?}]{\setlength{\rightskip}{0pt plus 5cm}\-d\-e\-f \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-a\-u\-t\-h\-o\-r\-i\-z\-e\-d\-? (
+\begin{DoxyParamCaption}
+\item[{}]{\-s\-e\-s\-s\-i\-o\-n\-i\-d}
+\end{DoxyParamCaption}
+)}}
+\label{classSSP__Helper_a4d39b23ac2bf42cc38f82e77b1214a7b}
+
+
+is user authorized in ssp? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sessionid} & ssp session id from cookie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if user is authorized 
+\end{DoxyReturn}
+
+
+Definition at line \-1\-7\-9 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_ad8f0c7e7c6523d22c34a79c51998a7c1}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-c\-r\-e\-a\-t\-e\_\-\-g\-r\-o\-u\-p@{\-c\-r\-e\-a\-t\-e\_\-\-g\-r\-o\-u\-p}}
+\index{\-c\-r\-e\-a\-t\-e\_\-\-g\-r\-o\-u\-p@{\-c\-r\-e\-a\-t\-e\_\-\-g\-r\-o\-u\-p}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-c\-r\-e\-a\-t\-e\_\-\-g\-r\-o\-u\-p}]{\setlength{\rightskip}{0pt plus 5cm}\-d\-e\-f \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-c\-r\-e\-a\-t\-e\_\-\-g\-r\-o\-u\-p (
+\begin{DoxyParamCaption}
+\item[{}]{\-g\-r\-o\-u\-p\-n\-a\-m\-e}
+\end{DoxyParamCaption}
+)}}
+\label{classSSP__Helper_ad8f0c7e7c6523d22c34a79c51998a7c1}
+
+
+creating new group 
+
+
+\begin{DoxyParams}{Parameters}
+{\em groupname} & groupname of group to be created \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \-1\-4\-1 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_af8371cbe8a7fe0ff2caf12a6e8cdee52}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-c\-r\-e\-a\-t\-e\_\-\-u\-s\-e\-r@{\-c\-r\-e\-a\-t\-e\_\-\-u\-s\-e\-r}}
+\index{\-c\-r\-e\-a\-t\-e\_\-\-u\-s\-e\-r@{\-c\-r\-e\-a\-t\-e\_\-\-u\-s\-e\-r}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-c\-r\-e\-a\-t\-e\_\-\-u\-s\-e\-r}]{\setlength{\rightskip}{0pt plus 5cm}\-d\-e\-f \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-c\-r\-e\-a\-t\-e\_\-\-u\-s\-e\-r (
+\begin{DoxyParamCaption}
+\item[{}]{\-u\-s\-e\-r\-n\-a\-m\-e}
+\end{DoxyParamCaption}
+)}}
+\label{classSSP__Helper_af8371cbe8a7fe0ff2caf12a6e8cdee52}
+
+
+creating new user 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & username of user to be created \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \-4\-8 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_aa20a57b52c8940fce3a398ea3cfbcb82}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-g\-e\-n\-e\-r\-a\-t\-e\_\-\-p\-a\-s\-s\-w\-o\-r\-d@{\-g\-e\-n\-e\-r\-a\-t\-e\_\-\-p\-a\-s\-s\-w\-o\-r\-d}}
+\index{\-g\-e\-n\-e\-r\-a\-t\-e\_\-\-p\-a\-s\-s\-w\-o\-r\-d@{\-g\-e\-n\-e\-r\-a\-t\-e\_\-\-p\-a\-s\-s\-w\-o\-r\-d}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-g\-e\-n\-e\-r\-a\-t\-e\_\-\-p\-a\-s\-s\-w\-o\-r\-d}]{\setlength{\rightskip}{0pt plus 5cm}\-d\-e\-f \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-g\-e\-n\-e\-r\-a\-t\-e\_\-\-p\-a\-s\-s\-w\-o\-r\-d (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classSSP__Helper_aa20a57b52c8940fce3a398ea3cfbcb82}
+
+
+create random password for new users 
+
+\begin{DoxyReturn}{Returns}
+random password 
+\end{DoxyReturn}
+
+
+Definition at line \-1\-5\-5 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_a6f6cfdeb2e1d3a683bfec4dacdfce6a0}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-g\-e\-t\_\-\-c\-r\-e\-d\-e\-n\-t\-i\-a\-l@{\-g\-e\-t\_\-\-c\-r\-e\-d\-e\-n\-t\-i\-a\-l}}
+\index{\-g\-e\-t\_\-\-c\-r\-e\-d\-e\-n\-t\-i\-a\-l@{\-g\-e\-t\_\-\-c\-r\-e\-d\-e\-n\-t\-i\-a\-l}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-g\-e\-t\_\-\-c\-r\-e\-d\-e\-n\-t\-i\-a\-l}]{\setlength{\rightskip}{0pt plus 5cm}\-d\-e\-f \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-g\-e\-t\_\-\-c\-r\-e\-d\-e\-n\-t\-i\-a\-l (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classSSP__Helper_a6f6cfdeb2e1d3a683bfec4dacdfce6a0}
+
+
+get username and password from \$\-O\-N\-E\_\-\-A\-U\-T\-H file 
+
+\begin{DoxyReturn}{Returns}
+username and password in a Hash 
+\end{DoxyReturn}
+
+
+Definition at line \-8\-5 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_acf8aec3cb3b77cc06caf4c968969a604}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-g\-e\-t\_\-\-g\-r\-o\-u\-p\-i\-d@{\-g\-e\-t\_\-\-g\-r\-o\-u\-p\-i\-d}}
+\index{\-g\-e\-t\_\-\-g\-r\-o\-u\-p\-i\-d@{\-g\-e\-t\_\-\-g\-r\-o\-u\-p\-i\-d}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-g\-e\-t\_\-\-g\-r\-o\-u\-p\-i\-d}]{\setlength{\rightskip}{0pt plus 5cm}\-d\-e\-f \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-g\-e\-t\_\-\-g\-r\-o\-u\-p\-i\-d (
+\begin{DoxyParamCaption}
+\item[{}]{\-g\-r\-o\-u\-p\-n\-a\-m\-e}
+\end{DoxyParamCaption}
+)}}
+\label{classSSP__Helper_acf8aec3cb3b77cc06caf4c968969a604}
+
+
+get group ID of a group 
+
+
+\begin{DoxyParams}{Parameters}
+{\em groupname} & groupname \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+group's ID 
+\end{DoxyReturn}
+
+
+Definition at line \-1\-2\-4 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_ada29927d2e44dddae158c49478929059}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-g\-e\-t\_\-\-s\-s\-p\_\-\-s\-e\-s\-s\-i\-o\-n@{\-g\-e\-t\_\-\-s\-s\-p\_\-\-s\-e\-s\-s\-i\-o\-n}}
+\index{\-g\-e\-t\_\-\-s\-s\-p\_\-\-s\-e\-s\-s\-i\-o\-n@{\-g\-e\-t\_\-\-s\-s\-p\_\-\-s\-e\-s\-s\-i\-o\-n}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-g\-e\-t\_\-\-s\-s\-p\_\-\-s\-e\-s\-s\-i\-o\-n}]{\setlength{\rightskip}{0pt plus 5cm}\-d\-e\-f \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-g\-e\-t\_\-\-s\-s\-p\_\-\-s\-e\-s\-s\-i\-o\-n (
+\begin{DoxyParamCaption}
+\item[{}]{\-s\-e\-s\-s\-i\-o\-n\-i\-d}
+\end{DoxyParamCaption}
+)}}
+\label{classSSP__Helper_ada29927d2e44dddae158c49478929059}
+
+
+get ssp session variable in \-J\-S\-O\-N format 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sessionid} & ssp session id from cookie \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-s\-s\-p\_\-\-s\-e\-s\-s\-i\-o\-n ssp session in \-J\-S\-O\-N format 
+\end{DoxyReturn}
+
+
+Definition at line \-1\-6\-2 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_a5cda10befd53265f17243d252f0e0af7}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-g\-e\-t\_\-\-u\-s\-e\-r\-i\-d@{\-g\-e\-t\_\-\-u\-s\-e\-r\-i\-d}}
+\index{\-g\-e\-t\_\-\-u\-s\-e\-r\-i\-d@{\-g\-e\-t\_\-\-u\-s\-e\-r\-i\-d}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-g\-e\-t\_\-\-u\-s\-e\-r\-i\-d}]{\setlength{\rightskip}{0pt plus 5cm}\-d\-e\-f \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-g\-e\-t\_\-\-u\-s\-e\-r\-i\-d (
+\begin{DoxyParamCaption}
+\item[{}]{\-u\-s\-e\-r\-n\-a\-m\-e}
+\end{DoxyParamCaption}
+)}}
+\label{classSSP__Helper_a5cda10befd53265f17243d252f0e0af7}
+
+
+get user's ID 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & username \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+user's ID 
+\end{DoxyReturn}
+
+
+Definition at line \-1\-0\-6 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_ab908821d6ce3055ada3983a8351dd08e}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-i\-n\-i\-t\-i\-a\-l\-i\-z\-e@{\-i\-n\-i\-t\-i\-a\-l\-i\-z\-e}}
+\index{\-i\-n\-i\-t\-i\-a\-l\-i\-z\-e@{\-i\-n\-i\-t\-i\-a\-l\-i\-z\-e}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-i\-n\-i\-t\-i\-a\-l\-i\-z\-e}]{\setlength{\rightskip}{0pt plus 5cm}\-d\-e\-f \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-i\-n\-i\-t\-i\-a\-l\-i\-z\-e (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{classSSP__Helper_ab908821d6ce3055ada3983a8351dd08e}
+
+
+initalize some instance variable 
+
+
+
+Definition at line \-2\-3 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_a0da2857b0ce07d6fff802ac4f0ae2d57}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-u\-p\-d\-a\-t\-e\_\-\-g\-r\-o\-u\-p@{\-u\-p\-d\-a\-t\-e\_\-\-g\-r\-o\-u\-p}}
+\index{\-u\-p\-d\-a\-t\-e\_\-\-g\-r\-o\-u\-p@{\-u\-p\-d\-a\-t\-e\_\-\-g\-r\-o\-u\-p}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-u\-p\-d\-a\-t\-e\_\-\-g\-r\-o\-u\-p}]{\setlength{\rightskip}{0pt plus 5cm}\-d\-e\-f \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-u\-p\-d\-a\-t\-e\_\-\-g\-r\-o\-u\-p (
+\begin{DoxyParamCaption}
+\item[{}]{\-u\-s\-e\-r\-n\-a\-m\-e, }
+\item[{}]{\-g\-r\-o\-u\-p\-n\-a\-m\-e}
+\end{DoxyParamCaption}
+)}}
+\label{classSSP__Helper_a0da2857b0ce07d6fff802ac4f0ae2d57}
+
+
+update user's group or create it's group 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & username's group will be updated \\
+\hline
+{\em groupname} & user's group \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \-6\-3 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classSSP__Helper_ac2eb114aa8118d494865309bf4dbf84b}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-c\-o\-n\-f\-i\-g@{\-c\-o\-n\-f\-i\-g}}
+\index{\-c\-o\-n\-f\-i\-g@{\-c\-o\-n\-f\-i\-g}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-c\-o\-n\-f\-i\-g}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-c\-o\-n\-f\-i\-g}\hspace{0.3cm}{\ttfamily  \mbox{[}\-r\-e\-a\-d, \-w\-r\-i\-t\-e\mbox{]}}}}
+\label{classSSP__Helper_ac2eb114aa8118d494865309bf4dbf84b}
+
+
+Definition at line \-2\-0 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_a78aae93c2b5611ab9a6948fa06b389f6}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-o\-n\-e\_\-\-a\-u\-t\-h@{\-o\-n\-e\_\-\-a\-u\-t\-h}}
+\index{\-o\-n\-e\_\-\-a\-u\-t\-h@{\-o\-n\-e\_\-\-a\-u\-t\-h}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-o\-n\-e\_\-\-a\-u\-t\-h}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-o\-n\-e\_\-\-a\-u\-t\-h}\hspace{0.3cm}{\ttfamily  \mbox{[}\-r\-e\-a\-d, \-w\-r\-i\-t\-e\mbox{]}}}}
+\label{classSSP__Helper_a78aae93c2b5611ab9a6948fa06b389f6}
+
+
+Definition at line \-2\-0 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_ae10644190226b85b30fecef33fb3b6df}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-o\-n\-e\_\-\-l\-o\-c\-a\-t\-i\-o\-n@{\-o\-n\-e\_\-\-l\-o\-c\-a\-t\-i\-o\-n}}
+\index{\-o\-n\-e\_\-\-l\-o\-c\-a\-t\-i\-o\-n@{\-o\-n\-e\_\-\-l\-o\-c\-a\-t\-i\-o\-n}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-o\-n\-e\_\-\-l\-o\-c\-a\-t\-i\-o\-n}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-o\-n\-e\_\-\-l\-o\-c\-a\-t\-i\-o\-n}\hspace{0.3cm}{\ttfamily  \mbox{[}\-r\-e\-a\-d, \-w\-r\-i\-t\-e\mbox{]}}}}
+\label{classSSP__Helper_ae10644190226b85b30fecef33fb3b6df}
+
+
+Definition at line \-2\-0 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+\hypertarget{classSSP__Helper_a4fd8d976d2074c90486edf102c4ba8c0}{
+\index{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}!\-o\-n\-e\_\-\-x\-m\-l\-r\-p\-c@{\-o\-n\-e\_\-\-x\-m\-l\-r\-p\-c}}
+\index{\-o\-n\-e\_\-\-x\-m\-l\-r\-p\-c@{\-o\-n\-e\_\-\-x\-m\-l\-r\-p\-c}!SSP_Helper@{\-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r}}
+\subsubsection[{\-o\-n\-e\_\-\-x\-m\-l\-r\-p\-c}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-S\-S\-P\_\-\-H\-e\-l\-p\-e\-r\-:\-:\-o\-n\-e\_\-\-x\-m\-l\-r\-p\-c}\hspace{0.3cm}{\ttfamily  \mbox{[}\-r\-e\-a\-d, \-w\-r\-i\-t\-e\mbox{]}}}}
+\label{classSSP__Helper_a4fd8d976d2074c90486edf102c4ba8c0}
+
+
+Definition at line \-2\-0 of file \-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b.
+
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ssp__helper_8rb}{\-s\-s\-p\_\-\-h\-e\-l\-p\-e\-r\-.\-r\-b}\end{DoxyCompactItemize}

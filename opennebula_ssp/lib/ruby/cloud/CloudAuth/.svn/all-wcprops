@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/48/opennebula_ssp/lib/ruby/cloud/CloudAuth
+END
+SSPCloudAuth.rb
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/48/opennebula_ssp/lib/ruby/cloud/CloudAuth/SSPCloudAuth.rb
+END
+ssp_helper.rb
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/48/opennebula_ssp/lib/ruby/cloud/CloudAuth/ssp_helper.rb
+END

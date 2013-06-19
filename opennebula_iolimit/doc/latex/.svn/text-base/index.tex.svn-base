@@ -1,0 +1,5 @@
+\hypertarget{index_desc}{}\section{DESCRIPTION}\label{index_desc}
+With this hook, specified IO limits can be set for virtual machines (VM) in OpenNebula. The IO limits can be configured in VM's template through the 'IOLIMIT' custom variable. The hooks should be executed after the VM is successfully booted. \par
+ The hook uses a program, called {\itshape cgroup\/} to set IO limits. The IO limit settings are handled by the {\itshape blkio\/} subsystem of cgroup, which can be used to specify upper IO rate limits on devices.\hypertarget{index_contents}{}\section{CONTENTS:}\label{index_contents}
+\begin{DoxyItemize}
+\item \hyperlink{setup}{Setup} \item \hyperlink{doc}{Developer documentation} \end{DoxyItemize}

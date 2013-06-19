@@ -1,0 +1,3 @@
+- CGROUP globális változó
+- hiányzó IOLIMIT esetén
+- dpkg-query helyett blkio létezik

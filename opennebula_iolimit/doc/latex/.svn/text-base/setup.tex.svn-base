@@ -1,0 +1,56 @@
+Requirement of the script is the cgroup program, which is usually in the main Linux repository, so it can be installed by the command: Debian / Ubuntu: 
+\begin{DoxyCode}
+ # apt-get install cgroup-bin
+\end{DoxyCode}
+ Red Hat Enterprise / Fedora Linux / Suse Linux / Cent OS: 
+\begin{DoxyCode}
+ # yum install libcgroup.i686
+\end{DoxyCode}
+ or 
+\begin{DoxyCode}
+ # yum install libcgroup.x86_64
+\end{DoxyCode}
+
+
+Cgroup can set IO limits only on block devices. Recommended to use LVM, for instance: \par
+ shared lvm patch: \href{http://dev.opennebula.org/issues/1341}{\tt http://dev.opennebula.org/issues/1341}
+
+{\bfseries Hook configuration} \par
+ COMMON: Path to scripts\_\-common.sh, used for log functions \par
+ DEVICEDIR: Path to the mounted VM devices \par
+ CGROUP: Path to cgroup directory
+
+For right behavior 'IOLIMIT' custom variable must be present in VM's template. 'IOLIMIT' variable specifies upper limit on write-\/ and read rate to the device. IO rate is specified in bytes per second.\par
+ Options for adding custom variables: \begin{DoxyItemize}
+\item In Sunstone by VM Template Wizard in section 'Add custom variables' \item Manually by editing a template\end{DoxyItemize}
+Example for template with 1024 byte/sec IO limit: \par
+ 
+\begin{DoxyCode}
+ CPU="1"
+ DISK=[
+     IMAGE="ttylinux - kvm",
+     IMAGE_UNAME="oneadmin" ]
+ FEATURES=[
+     PAE="no" ]
+ IOLIMIT="1024"
+ MEMORY="512"
+ NAME="example"
+ OS=[
+     ARCH="x86_64",
+     BOOT="hd" ]
+ RAW=[
+     TYPE="kvm" ]
+ TEMPLATE_ID="1"\n
+\end{DoxyCode}
+
+
+After setting 'IOLIMIT' variables in, a VM hook must be defined in \$ONE\_\-LOCATION/etc/oned.conf: 
+\begin{DoxyCode}
+ VM_HOOK = [
+      name      = "iolimit",
+      on        = "RUNNING",
+      command   = "/var/tmp/one/hooks/iolimit.sh",
+      arguments = "$TEMPLATE",
+      remote    = "YES" ]
+\end{DoxyCode}
+ 
