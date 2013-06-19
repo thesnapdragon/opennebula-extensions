@@ -1,15 +1,23 @@
-diff -uNr opennebula-3.8.1_original//install.sh opennebula-3.8.1_patched//install.sh
---- opennebula-3.8.1_original//install.sh	2012-10-26 17:30:33.000000000 +0200
-+++ opennebula-3.8.1_patched//install.sh	2013-01-04 14:21:18.868462395 +0100
-@@ -509,6 +509,7 @@
-     SUNSTONE_PUBLIC_VENDOR_JQUERYUI:$SUNSTONE_LOCATION/public/vendor/jQueryUI
-     SUNSTONE_PUBLIC_VENDOR_JQUERYUIIMAGES:$SUNSTONE_LOCATION/public/vendor/jQueryUI/images
-     SUNSTONE_PUBLIC_VENDOR_JQUERYLAYOUT:$SUNSTONE_LOCATION/public/vendor/jQueryLayout
+diff -uNr one/install.sh one_patched/install.sh
+--- one/install.sh	2013-06-14 12:22:30.655005644 +0200
++++ one_patched/install.sh	2013-06-14 14:33:17.485704834 +0200
+@@ -312,6 +312,7 @@
+                $SUNSTONE_LOCATION/public/vendor/4.0/jdpicker_1.1 \
+                $SUNSTONE_LOCATION/public/vendor/4.0/jdpicker_1.1/images \
+                $SUNSTONE_LOCATION/public/vendor/4.0/datetimepicker \
++               $SUNSTONE_LOCATION/public/vendor/jQueryCookie \
+                $SUNSTONE_LOCATION/public/images \
+                $SUNSTONE_LOCATION/views"
+ 
+@@ -512,6 +513,7 @@
+     SUNSTONE_PUBLIC_NEW_VENDOR_JDPICKER_IMAGES:$SUNSTONE_LOCATION/public/vendor/4.0/jdpicker_1.1/images
+     SUNSTONE_PUBLIC_NEW_VENDOR_TIMEPICKER:$SUNSTONE_LOCATION/public/vendor/4.0/
+     SUNSTONE_PUBLIC_NEW_VENDOR_DATETIMEPICKER:$SUNSTONE_LOCATION/public/vendor/4.0/datetimepicker
 +    SUNSTONE_PUBLIC_VENDOR_JQUERYCOOKIE:$SUNSTONE_LOCATION/public/vendor/jQueryCookie
-     SUNSTONE_PUBLIC_VENDOR_FLOT:$SUNSTONE_LOCATION/public/vendor/flot
-     SUNSTONE_PUBLIC_VENDOR_FILEUPLOADER:$SUNSTONE_LOCATION/public/vendor/fileuploader
-     SUNSTONE_PUBLIC_VENDOR_FONTAWESOME:$SUNSTONE_LOCATION/public/vendor/FontAwesome
-@@ -1120,7 +1121,9 @@
+     SUNSTONE_PUBLIC_IMAGES_FILES:$SUNSTONE_LOCATION/public/images
+     SUNSTONE_PUBLIC_LOCALE_CA:$SUNSTONE_LOCATION/public/locale/ca
+     SUNSTONE_PUBLIC_LOCALE_CS_CZ:$SUNSTONE_LOCATION/public/locale/cs_CZ
+@@ -1180,7 +1182,9 @@
                        src/cloud/common/CloudAuth/SunstoneCloudAuth.rb \
                        src/cloud/common/CloudAuth/EC2CloudAuth.rb \
                        src/cloud/common/CloudAuth/X509CloudAuth.rb \
@@ -20,7 +28,7 @@ diff -uNr opennebula-3.8.1_original//install.sh opennebula-3.8.1_patched//instal
  
  #-------------------------------------------------------------------------------
  # EC2 Query for OpenNebula
-@@ -1342,10 +1345,12 @@
+@@ -1408,10 +1412,12 @@
  SUNSTONE_VIEWS_FILES="src/sunstone/views/index.erb \
                        src/sunstone/views/login.erb \
                        src/sunstone/views/_login_standard.erb \
@@ -34,19 +42,18 @@ diff -uNr opennebula-3.8.1_original//install.sh opennebula-3.8.1_patched//instal
                          src/sunstone/public/js/sunstone.js \
                          src/sunstone/public/js/sunstone-util.js \
                          src/sunstone/public/js/opennebula.js \
-@@ -1421,6 +1426,9 @@
-             src/sunstone/public/vendor/jQueryLayout/layout-default-latest.css \
-             src/sunstone/public/vendor/jQueryLayout/jquery.layout-latest.min.js \
-             src/sunstone/public/vendor/jQueryLayout/NOTICE"
-+            
+@@ -1531,6 +1537,8 @@
+             src/sunstone/public/vendor/4.0/jquery_layout/layout-default-latest.css \
+             src/sunstone/public/vendor/4.0/jquery_layout/jquery.layout-latest.min.js"
+ 
 +SUNSTONE_PUBLIC_VENDOR_JQUERYCOOKIE="\
 +            src/sunstone/public/vendor/jQueryCookie/jquery-cookie.js"
  
- SUNSTONE_PUBLIC_VENDOR_FLOT="\
- src/sunstone/public/vendor/flot/jquery.flot.min.js \
-diff -uNr opennebula-3.8.1_original//src/cloud/common/CloudAuth/SSPCloudAuth.rb opennebula-3.8.1_patched//src/cloud/common/CloudAuth/SSPCloudAuth.rb
---- opennebula-3.8.1_original//src/cloud/common/CloudAuth/SSPCloudAuth.rb	1970-01-01 01:00:00.000000000 +0100
-+++ opennebula-3.8.1_patched//src/cloud/common/CloudAuth/SSPCloudAuth.rb	2012-12-21 11:53:07.000000000 +0100
+ SUNSTONE_PUBLIC_NEW_VENDOR_FONTAWESOME_CSS="\
+   src/sunstone/public/vendor/4.0/fontawesome/css/font-awesome.min.css"
+diff -uNr one/src/cloud/common/CloudAuth/SSPCloudAuth.rb one_patched/src/cloud/common/CloudAuth/SSPCloudAuth.rb
+--- one/src/cloud/common/CloudAuth/SSPCloudAuth.rb	1970-01-01 01:00:00.000000000 +0100
++++ one_patched/src/cloud/common/CloudAuth/SSPCloudAuth.rb	2012-12-21 11:53:07.000000000 +0100
 @@ -0,0 +1,94 @@
 +# -------------------------------------------------------------------------- #
 +# Copyright 2002-2012, OpenNebula Project Leads (OpenNebula.org)             #
@@ -142,9 +149,9 @@ diff -uNr opennebula-3.8.1_original//src/cloud/common/CloudAuth/SSPCloudAuth.rb 
 +        return nil
 +    end
 +end
-diff -uNr opennebula-3.8.1_original//src/cloud/common/CloudAuth/ssp_helper.rb opennebula-3.8.1_patched//src/cloud/common/CloudAuth/ssp_helper.rb
---- opennebula-3.8.1_original//src/cloud/common/CloudAuth/ssp_helper.rb	1970-01-01 01:00:00.000000000 +0100
-+++ opennebula-3.8.1_patched//src/cloud/common/CloudAuth/ssp_helper.rb	2012-12-21 11:53:54.000000000 +0100
+diff -uNr one/src/cloud/common/CloudAuth/ssp_helper.rb one_patched/src/cloud/common/CloudAuth/ssp_helper.rb
+--- one/src/cloud/common/CloudAuth/ssp_helper.rb	1970-01-01 01:00:00.000000000 +0100
++++ one_patched/src/cloud/common/CloudAuth/ssp_helper.rb	2012-12-21 11:53:54.000000000 +0100
 @@ -0,0 +1,187 @@
 +# -------------------------------------------------------------------------- #
 +# Copyright 2002-2012, OpenNebula Project Leads (OpenNebula.org)             #
@@ -333,9 +340,9 @@ diff -uNr opennebula-3.8.1_original//src/cloud/common/CloudAuth/ssp_helper.rb op
 +    end
 +
 +end
-diff -uNr opennebula-3.8.1_original//src/cloud/common/CloudAuth.rb opennebula-3.8.1_patched//src/cloud/common/CloudAuth.rb
---- opennebula-3.8.1_original//src/cloud/common/CloudAuth.rb	2012-10-26 17:30:33.000000000 +0200
-+++ opennebula-3.8.1_patched//src/cloud/common/CloudAuth.rb	2012-12-11 18:20:46.000000000 +0100
+diff -uNr one/src/cloud/common/CloudAuth.rb one_patched/src/cloud/common/CloudAuth.rb
+--- one/src/cloud/common/CloudAuth.rb	2013-06-14 12:22:30.674006109 +0200
++++ one_patched/src/cloud/common/CloudAuth.rb	2013-06-14 13:56:56.527881665 +0200
 @@ -21,6 +21,7 @@
      AUTH_MODULES = {
          "occi"       => 'OCCICloudAuth',
@@ -344,26 +351,10 @@ diff -uNr opennebula-3.8.1_original//src/cloud/common/CloudAuth.rb opennebula-3.
          "ec2"        => 'EC2CloudAuth',
          "x509"       => 'X509CloudAuth',
          "opennebula" => 'OpenNebulaCloudAuth'
-@@ -158,4 +159,4 @@
-             raise rc.message if OpenNebula.is_error?(rc)
-         }
-     end
--end
-\ Nincs újsor a fájl végén
-+end
-diff -uNr opennebula-3.8.1_original//src/sunstone/etc/sunstone-server.conf opennebula-3.8.1_patched//src/sunstone/etc/sunstone-server.conf
---- opennebula-3.8.1_original//src/sunstone/etc/sunstone-server.conf	2012-10-26 17:30:33.000000000 +0200
-+++ opennebula-3.8.1_patched//src/sunstone/etc/sunstone-server.conf	2012-12-18 11:58:11.000000000 +0100
-@@ -50,7 +50,7 @@
- #   opennebula, the authentication will be done by the opennebula core using the
- #   driver defined for the user
- #
--:auth: sunstone
-+:auth: ssp
- 
- # Authentication driver to communicate with OpenNebula core
- #   cipher, for symmetric cipher encryption of tokens
-@@ -113,3 +113,22 @@
+diff -uNr one/src/sunstone/etc/sunstone-server.conf one_patched/src/sunstone/etc/sunstone-server.conf
+--- one/src/sunstone/etc/sunstone-server.conf	2013-06-14 12:22:30.747007896 +0200
++++ one_patched/src/sunstone/etc/sunstone-server.conf	2013-06-14 13:58:07.563681523 +0200
+@@ -124,3 +124,22 @@
  #:routes:
  #    - custom
  #    - other
@@ -386,12 +377,12 @@ diff -uNr opennebula-3.8.1_original//src/sunstone/etc/sunstone-server.conf openn
 +:ssp_loginvalidator: /simplesaml/module.php/getSession/index.php?sessid=
 +:ssp_logoutpage: /simplesaml/module.php/core/as_logout.php?AuthId=default-sp&ReturnTo=/simplesaml/logout.php
 +:one_auth_for_ssp: /var/lib/one/.one/one_auth
-diff -uNr opennebula-3.8.1_original//src/sunstone/public/js/login_ssp.js opennebula-3.8.1_patched//src/sunstone/public/js/login_ssp.js
---- opennebula-3.8.1_original//src/sunstone/public/js/login_ssp.js	1970-01-01 01:00:00.000000000 +0100
-+++ opennebula-3.8.1_patched//src/sunstone/public/js/login_ssp.js	2012-12-11 18:20:46.000000000 +0100
+diff -uNr one/src/sunstone/public/js/login_ssp.js one_patched/src/sunstone/public/js/login_ssp.js
+--- one/src/sunstone/public/js/login_ssp.js	1970-01-01 01:00:00.000000000 +0100
++++ one_patched/src/sunstone/public/js/login_ssp.js	2013-06-14 14:36:43.630852892 +0200
 @@ -0,0 +1,100 @@
 +/* -------------------------------------------------------------------------- */
-+/* Copyright 2002-2012, OpenNebula Project Leads (OpenNebula.org)             */
++/* Copyright 2002-2013, OpenNebula Project (OpenNebula.org), C12G Labs        */
 +/*                                                                            */
 +/* Licensed under the Apache License, Version 2.0 (the "License"); you may    */
 +/* not use this file except in compliance with the License. You may obtain    */
@@ -416,16 +407,16 @@ diff -uNr opennebula-3.8.1_original//src/sunstone/public/js/login_ssp.js openneb
 +
 +    switch (status){
 +    case 401:
-+        $("#error_box").text("Invalid username or password");
++        $("#error_message").text("Invalid username or password");
 +        break;
 +    case 500:
-+        $("#error_box").text("OpenNebula is not running or there was a server exception. Please check the server logs.");
++        $("#error_message").text("OpenNebula is not running or there was a server exception. Please check the server logs.");
 +        break;
 +    case 0:
-+        $("#error_box").text("No answer from server. Is it running?");
++        $("#error_message").text("No answer from server. Is it running?");
 +        break;
 +    default:
-+        $("#error_box").text("Unexpected error. Status "+status+". Check the server logs.");
++        $("#error_message").text("Unexpected error. Status "+status+". Check the server logs.");
 +    };
 +    $("#error_box").fadeIn("slow");
 +}
@@ -472,16 +463,16 @@ diff -uNr opennebula-3.8.1_original//src/sunstone/public/js/login_ssp.js openneb
 +}
 +
 +$(document).ready(function(){
++    var pathname=$(location).attr('href');
++    $.ajax({
++       type: 'GET',
++       url:pathname,
++       complete: function(XMLHttpRequest,textStatus){
++            authenticate();
++            return false;
++       }
++    });
 +
-+var pathname=$(location).attr('href');
-+$.ajax({
-+   type: 'GET',
-+   url:pathname,
-+   complete: function(XMLHttpRequest,textStatus){
-+        authenticate();
-+        return false;
-+   }
-+  });
 +    //compact login elements according to screen height
 +    if (screen.height <= 600){
 +        $('div#logo_sunstone').css("top","15px");
@@ -490,10 +481,10 @@ diff -uNr opennebula-3.8.1_original//src/sunstone/public/js/login_ssp.js openneb
 +
 +    checkVersion();
 +});
-diff -uNr opennebula-3.8.1_original//src/sunstone/public/js/sunstone.js opennebula-3.8.1_patched//src/sunstone/public/js/sunstone.js
---- opennebula-3.8.1_original//src/sunstone/public/js/sunstone.js	2012-10-26 17:30:33.000000000 +0200
-+++ opennebula-3.8.1_patched//src/sunstone/public/js/sunstone.js	2012-12-11 18:20:46.000000000 +0100
-@@ -399,15 +399,15 @@
+diff -uNr one/src/sunstone/public/js/sunstone.js one_patched/src/sunstone/public/js/sunstone.js
+--- one/src/sunstone/public/js/sunstone.js	2013-06-14 12:22:30.773008532 +0200
++++ one_patched/src/sunstone/public/js/sunstone.js	2013-06-14 14:06:50.331896879 +0200
+@@ -444,15 +444,15 @@
      //This variables can be used anywhere
      switch(whichUI()){
      case "sunstone":
@@ -512,22 +503,9 @@ diff -uNr opennebula-3.8.1_original//src/sunstone/public/js/sunstone.js opennebu
          uid = cookie["occi-user-id"];
          break;
      };
-@@ -416,7 +416,11 @@
-     $("div#header span#user").html(username);
- 
-     $("div#header a#logout").click(function(){
--        redirect = function(){window.location.href = "login";};
-+        if ($.cookie("ssp_logoutpage") == undefined)
-+            redirect = function(){window.location.href = "login";};
-+        else {
-+            redirect = function(){window.location.href = $.cookie("ssp_logoutpage");};
-+        }
-         switch(whichUI()){
-         case "sunstone":
-             OpenNebula.Auth.logout({success:redirect});
-diff -uNr opennebula-3.8.1_original//src/sunstone/public/vendor/jQueryCookie/jquery-cookie.js opennebula-3.8.1_patched//src/sunstone/public/vendor/jQueryCookie/jquery-cookie.js
---- opennebula-3.8.1_original//src/sunstone/public/vendor/jQueryCookie/jquery-cookie.js	1970-01-01 01:00:00.000000000 +0100
-+++ opennebula-3.8.1_patched//src/sunstone/public/vendor/jQueryCookie/jquery-cookie.js	2012-12-11 18:20:46.000000000 +0100
+diff -uNr one/src/sunstone/public/vendor/jQueryCookie/jquery-cookie.js one_patched/src/sunstone/public/vendor/jQueryCookie/jquery-cookie.js
+--- one/src/sunstone/public/vendor/jQueryCookie/jquery-cookie.js	1970-01-01 01:00:00.000000000 +0100
++++ one_patched/src/sunstone/public/vendor/jQueryCookie/jquery-cookie.js	2012-12-11 18:20:46.000000000 +0100
 @@ -0,0 +1,62 @@
 +/*jshint eqnull:true */
 +/*!
@@ -591,10 +569,10 @@ diff -uNr opennebula-3.8.1_original//src/sunstone/public/vendor/jQueryCookie/jqu
 +
 +})(jQuery, document);
 +
-diff -uNr opennebula-3.8.1_original//src/sunstone/sunstone-server.rb opennebula-3.8.1_patched//src/sunstone/sunstone-server.rb
---- opennebula-3.8.1_original//src/sunstone/sunstone-server.rb	2012-10-26 17:30:33.000000000 +0200
-+++ opennebula-3.8.1_patched//src/sunstone/sunstone-server.rb	2012-12-11 18:20:46.000000000 +0100
-@@ -41,6 +41,7 @@
+diff -uNr one/src/sunstone/sunstone-server.rb one_patched/src/sunstone/sunstone-server.rb
+--- one/src/sunstone/sunstone-server.rb	2013-06-14 12:22:30.805009316 +0200
++++ one_patched/src/sunstone/sunstone-server.rb	2013-06-14 14:18:14.552098832 +0200
+@@ -43,6 +43,7 @@
  
  $: << RUBY_LIB_LOCATION
  $: << RUBY_LIB_LOCATION+'/cloud'
@@ -602,116 +580,56 @@ diff -uNr opennebula-3.8.1_original//src/sunstone/sunstone-server.rb opennebula-
  $: << SUNSTONE_ROOT_DIR
  $: << SUNSTONE_ROOT_DIR+'/models'
  
-@@ -58,6 +59,7 @@
+@@ -60,6 +61,7 @@
  require 'SunstoneServer'
- require 'SunstonePlugins'
+ require 'SunstoneViews'
  
 +require 'ssp_helper'
  
  ##############################################################################
  # Configuration
-@@ -77,23 +79,21 @@
- #Sinatra configuration
- 
- set :config, conf
--set :bind, settings.config[:host]
--set :port, settings.config[:port]
-+set :bind, conf[:host]
-+set :port, conf[:port]
- 
- use Rack::Session::Pool, :key => 'sunstone'
- 
- # Enable logger
- 
- include CloudLogger
--enable_logging SUNSTONE_LOG, settings.config[:debug_level].to_i
--
-+logger = enable_logging SUNSTONE_LOG, conf[:debug_level].to_i
- begin
-     ENV["ONE_CIPHER_AUTH"] = SUNSTONE_AUTH
--    cloud_auth = CloudAuth.new(settings.config, settings.logger)
-+    cloud_auth = CloudAuth.new(conf, logger)
- rescue => e
--    settings.logger.error {
--        "Error initializing authentication system" }
--    settings.logger.error { e.message }
-+    logger.error { "Error initializing authentication system" }
-+    logger.error { e.message }
-     exit -1
- end
- 
-@@ -102,11 +102,15 @@
- #start VNC proxy
- 
- configure do
-+    vnc = OpenNebulaVNC.new(conf, logger)
-+
-     set :run, false
--    set :vnc, OpenNebulaVNC.new(conf, settings.logger)
--    settings.vnc.start()
-+    set :vnc, vnc
-+
-+    vnc.start()
-+
-     Kernel.at_exit do
--        settings.vnc.stop
-+        vnc.stop
-     end
- end
- 
-@@ -120,6 +124,10 @@
+@@ -139,6 +141,10 @@
  
      def build_session
          begin
-+            if settings.config[:auth]=='ssp'
-+                response.set_cookie('ssp_logoutpage',settings.config[:ssp_host]+settings.config[:ssp_logoutpage])
-+                params['ssp_sessionid']=request.cookies[settings.config[:ssp_sessionid]]
++            if $conf[:auth]=='ssp'
++                response.set_cookie('ssp_logoutpage',$conf[:ssp_host]+$conf[:ssp_logoutpage])
++                params['ssp_sessionid']=request.cookies[$conf[:ssp_sessionid]]
 +            end
-             result = settings.cloud_auth.auth(request.env, params)
+             result = $cloud_auth.auth(request.env, params)
          rescue Exception => e
              logger.error { e.message }
-@@ -211,8 +219,8 @@
- ##############################################################################
- # Custom routes
- ##############################################################################
--if settings.config[:routes]
--    settings.config[:routes].each { |route|
-+if conf[:routes]
-+    conf[:routes].each { |route|
-         require "routes/#{route}"
-     }
- end
-@@ -222,6 +230,15 @@
+@@ -247,6 +253,15 @@
  ##############################################################################
  get '/' do
      content_type 'text/html', :charset => 'utf-8'
 +
-+    if settings.config[:auth]=='ssp' 
-+        ssp_sessionid=request.cookies[settings.config[:ssp_sessionid]]
++    if $conf[:auth]=='ssp'
++        ssp_sessionid=request.cookies[$conf[:ssp_sessionid]]
 +        ssp=SSP_Helper.new
 +        if not ssp.authorized?(ssp_sessionid)
-+            redirect settings.config[:ssp_host]+settings.config[:ssp_loginpage], 302
++            redirect $conf[:ssp_host]+$conf[:ssp_loginpage], 302
 +        end
 +    end
 +
      if !authorized?
          return erb :login
      end
-diff -uNr opennebula-3.8.1_original//src/sunstone/views/index.erb opennebula-3.8.1_patched//src/sunstone/views/index.erb
---- opennebula-3.8.1_original//src/sunstone/views/index.erb	2012-10-26 17:30:33.000000000 +0200
-+++ opennebula-3.8.1_patched//src/sunstone/views/index.erb	2012-12-11 18:20:46.000000000 +0100
-@@ -16,6 +16,7 @@
-     <script type="text/javascript" src="vendor/jGrowl/jquery.jgrowl_minimized.js"></script>
-     <script type="text/javascript" src="vendor/jQueryUI/jquery-ui-1.8.16.custom.min.js"></script>
-     <script type="text/javascript" src="vendor/jQueryLayout/jquery.layout-latest.min.js"></script>
+diff -uNr one/src/sunstone/views/index.erb one_patched/src/sunstone/views/index.erb
+--- one/src/sunstone/views/index.erb	2013-06-14 12:22:30.808009389 +0200
++++ one_patched/src/sunstone/views/index.erb	2013-06-14 14:19:15.459626923 +0200
+@@ -8,6 +8,7 @@
+     <script src="vendor/4.0/jquery-migrate-1.1.0.js" type="text/javascript"></script>
+     <script src="vendor/4.0/jgrowl/jquery.jgrowl.js" type="text/javascript"></script>
+     <script src="vendor/4.0/jquery_layout/jquery.layout-latest.min.js" type="text/javascript"></script>
 +    <script type="text/javascript" src="vendor/jQueryCookie/jquery-cookie.js"></script>
-     <script type="text/javascript" src="vendor/dataTables/jquery.dataTables.min.js"></script>
-     <script type="text/javascript" src="vendor/dataTables/ColVis.min.js"></script>
- <!--    <script type="text/javascript" src="vendor/dataTables/ColReorderWithResize.js"></script>-->
-diff -uNr opennebula-3.8.1_original//src/sunstone/views/login.erb opennebula-3.8.1_patched//src/sunstone/views/login.erb
---- opennebula-3.8.1_original//src/sunstone/views/login.erb	2012-10-26 17:30:33.000000000 +0200
-+++ opennebula-3.8.1_patched//src/sunstone/views/login.erb	2012-12-11 18:20:46.000000000 +0100
-@@ -16,7 +16,11 @@
+     <script src="vendor/4.0/foundation/modernizr.foundation.js" type="text/javascript"></script>
+     <script src="vendor/4.0/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+     <script src="vendor/4.0/foundation_datatables/responsive-tables.js" type="text/javascript"></script>
+diff -uNr one/src/sunstone/views/login.erb one_patched/src/sunstone/views/login.erb
+--- one/src/sunstone/views/login.erb	2013-06-14 12:22:30.808009389 +0200
++++ one_patched/src/sunstone/views/login.erb	2013-06-14 14:21:30.916023544 +0200
+@@ -11,7 +11,11 @@
      <![endif]-->
  
      <script type="text/javascript" src="js/opennebula.js"></script>
@@ -724,7 +642,7 @@ diff -uNr opennebula-3.8.1_original//src/sunstone/views/login.erb opennebula-3.8
  
  </head>
  
-@@ -30,6 +34,8 @@
+@@ -20,6 +24,8 @@
  
  <% if settings.config[:auth] == "x509" %>
    <%= erb :_login_x509 %>
@@ -733,15 +651,18 @@ diff -uNr opennebula-3.8.1_original//src/sunstone/views/login.erb opennebula-3.8
  <% else %>
    <%= erb :_login_standard %>
  <% end %>
-diff -uNr opennebula-3.8.1_original//src/sunstone/views/_login_ssp.erb opennebula-3.8.1_patched//src/sunstone/views/_login_ssp.erb
---- opennebula-3.8.1_original//src/sunstone/views/_login_ssp.erb	1970-01-01 01:00:00.000000000 +0100
-+++ opennebula-3.8.1_patched//src/sunstone/views/_login_ssp.erb	2012-12-11 18:20:46.000000000 +0100
-@@ -0,0 +1,8 @@
+diff -uNr one/src/sunstone/views/_login_ssp.erb one_patched/src/sunstone/views/_login_ssp.erb
+--- one/src/sunstone/views/_login_ssp.erb	1970-01-01 01:00:00.000000000 +0100
++++ one_patched/src/sunstone/views/_login_ssp.erb	2013-06-14 14:24:23.678352259 +0200
+@@ -0,0 +1,11 @@
 +<div id="wrapper">
-+      <div id="logo_sunstone">
++      <div id="logo_sunstone" style="
++    background: url(<%=$views_config.logo%>) no-repeat center;
++    background-size: 355px;">
 +      </div>
 +
-+      <div id="error_box" class="error_message ui-state-error ui-corner-all">
-+      </div>
++    <div id="error_box" class="hidden alert-box alert" style="display: none">
++      <span id="error_message"></span>
++    </div>
 +
 +</div>

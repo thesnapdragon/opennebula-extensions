@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # -------------------------------------------------------------------------- #
-# Copyright 2002-2012, OpenNebula Project Leads (OpenNebula.org)             #
+# Copyright 2002-2013, OpenNebula Project (OpenNebula.org), C12G Labs        #
 #                                                                            #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may    #
 # not use this file except in compliance with the License. You may obtain    #
@@ -23,11 +23,13 @@ if !ONE_LOCATION
     LOG_LOCATION = "/var/log/one"
     VAR_LOCATION = "/var/lib/one"
     ETC_LOCATION = "/etc/one"
+    SHARE_LOCATION = "/usr/share/one"
     RUBY_LIB_LOCATION = "/usr/lib/one/ruby"
 else
     VAR_LOCATION = ONE_LOCATION + "/var"
     LOG_LOCATION = ONE_LOCATION + "/var"
     ETC_LOCATION = ONE_LOCATION + "/etc"
+    SHARE_LOCATION = ONE_LOCATION + "/share"
     RUBY_LIB_LOCATION = ONE_LOCATION+"/lib/ruby"
 end
 
@@ -57,7 +59,7 @@ require 'yaml'
 
 require 'CloudAuth'
 require 'SunstoneServer'
-require 'SunstonePlugins'
+require 'SunstoneViews'
 
 require 'ssp_helper'
 
@@ -66,52 +68,67 @@ require 'ssp_helper'
 ##############################################################################
 
 begin
-    conf = YAML.load_file(CONFIGURATION_FILE)
+    $conf = YAML.load_file(CONFIGURATION_FILE)
 rescue Exception => e
     STDERR.puts "Error parsing config file #{CONFIGURATION_FILE}: #{e.message}"
     exit 1
 end
 
-conf[:debug_level] ||= 3
+$conf[:debug_level] ||= 3
 
-CloudServer.print_configuration(conf)
+CloudServer.print_configuration($conf)
 
 #Sinatra configuration
 
-set :config, conf
-set :bind, conf[:host]
-set :port, conf[:port]
+set :config, $conf
+set :bind, $conf[:host]
+set :port, $conf[:port]
 
-use Rack::Session::Pool, :key => 'sunstone'
+case $conf[:sessions]
+when 'memory', nil
+    use Rack::Session::Pool, :key => 'sunstone'
+when 'memcache'
+    memcache_server=$conf[:memcache_host]+':'<<
+        $conf[:memcache_port].to_s
+
+    STDERR.puts memcache_server
+
+    use Rack::Session::Memcache,
+        :memcache_server => memcache_server,
+        :namespace => $conf[:memcache_namespace]
+else
+    STDERR.puts "Wrong value for :sessions in configuration file"
+    exit(-1)
+end
 
 # Enable logger
 
 include CloudLogger
-logger = enable_logging SUNSTONE_LOG, conf[:debug_level].to_i
+logger=enable_logging(SUNSTONE_LOG, $conf[:debug_level].to_i)
+
 begin
     ENV["ONE_CIPHER_AUTH"] = SUNSTONE_AUTH
-    cloud_auth = CloudAuth.new(conf, logger)
+    $cloud_auth = CloudAuth.new($conf, logger)
 rescue => e
-    logger.error { "Error initializing authentication system" }
+    logger.error {
+        "Error initializing authentication system" }
     logger.error { e.message }
     exit -1
 end
 
-set :cloud_auth, cloud_auth
+set :cloud_auth, $cloud_auth
+
+
+$views_config = SunstoneViews.new
 
 #start VNC proxy
 
+$vnc = OpenNebulaVNC.new($conf, logger)
+
 configure do
-    vnc = OpenNebulaVNC.new(conf, logger)
-
     set :run, false
-    set :vnc, vnc
-
-    vnc.start()
-
-    Kernel.at_exit do
-        vnc.stop
-    end
+    set :vnc, $vnc
+    set :erb, :trim => '-'
 end
 
 ##############################################################################
@@ -124,11 +141,11 @@ helpers do
 
     def build_session
         begin
-            if settings.config[:auth]=='ssp'
-                response.set_cookie('ssp_logoutpage',settings.config[:ssp_host]+settings.config[:ssp_logoutpage])
-                params['ssp_sessionid']=request.cookies[settings.config[:ssp_sessionid]]
+            if $conf[:auth]=='ssp'
+                response.set_cookie('ssp_logoutpage',$conf[:ssp_host]+$conf[:ssp_logoutpage])
+                params['ssp_sessionid']=request.cookies[$conf[:ssp_sessionid]]
             end
-            result = settings.cloud_auth.auth(request.env, params)
+            result = $cloud_auth.auth(request.env, params)
         rescue Exception => e
             logger.error { e.message }
             return [500, ""]
@@ -138,7 +155,7 @@ helpers do
             logger.info { "Unauthorized login attempt" }
             return [401, ""]
         else
-            client  = settings.cloud_auth.client(result)
+            client  = $cloud_auth.client(result)
             user_id = OpenNebula::User::SELF
 
             user    = OpenNebula::User.new_with_id(user_id, client)
@@ -163,16 +180,22 @@ helpers do
             if user['TEMPLATE/LANG']
                 session[:lang] = user['TEMPLATE/LANG']
             else
-                session[:lang] = settings.config[:lang]
+                session[:lang] = $conf[:lang]
             end
 
             if user['TEMPLATE/VNC_WSS']
-                session[:wss] = user['TEMPLATE/VNC_WSS']
+                session[:vnc_wss] = user['TEMPLATE/VNC_WSS']
             else
-                wss = settings.config[:vnc_proxy_support_wss]
+                wss = $conf[:vnc_proxy_support_wss]
                 #limit to yes,no options
-                session[:wss] = (wss == true || wss == "yes" || wss == "only" ?
+                session[:vnc_wss] = (wss == true || wss == "yes" || wss == "only" ?
                                  "yes" : "no")
+            end
+
+            if user['TEMPLATE/DEFAULT_VIEW']
+                session[:default_view] = user['TEMPLATE/DEFAULT_VIEW']
+            else
+                session[:default_view] = $views_config.available_views(session[:user], session[:user_gname]).first
             end
 
             #end user options
@@ -198,9 +221,9 @@ before do
         halt 401 unless authorized?
 
         @SunstoneServer = SunstoneServer.new(
-                              settings.cloud_auth.client(session[:user]),
-                              settings.config,
-                              settings.logger)
+                              $cloud_auth.client(session[:user]),
+                              $conf,
+                              logger)
     end
 end
 
@@ -219,8 +242,8 @@ end
 ##############################################################################
 # Custom routes
 ##############################################################################
-if conf[:routes]
-    conf[:routes].each { |route|
+if $conf[:routes]
+    $conf[:routes].each { |route|
         require "routes/#{route}"
     }
 end
@@ -231,30 +254,19 @@ end
 get '/' do
     content_type 'text/html', :charset => 'utf-8'
 
-    if settings.config[:auth]=='ssp' 
-        ssp_sessionid=request.cookies[settings.config[:ssp_sessionid]]
+    if $conf[:auth]=='ssp'
+        ssp_sessionid=request.cookies[$conf[:ssp_sessionid]]
         ssp=SSP_Helper.new
         if not ssp.authorized?(ssp_sessionid)
-            redirect settings.config[:ssp_host]+settings.config[:ssp_loginpage], 302
+            redirect $conf[:ssp_host]+$conf[:ssp_loginpage], 302
         end
     end
 
     if !authorized?
         return erb :login
     end
-    time = Time.now + 60*10
-    response.set_cookie("one-user",
-                        :value=>"#{session[:user]}",
-                        :expires=>time)
-    response.set_cookie("one-user_id",
-                        :value=>"#{session[:user_id]}",
-                        :expires=>time)
-    response.set_cookie("one-user_gid",
-                        :value=>"#{session[:user_gid]}",
-                        :expires=>time)
 
-    p = SunstonePlugins.new
-    @plugins = p.authorized_plugins(session[:user], session[:user_gname])
+    response.set_cookie("one-user", :value=>"#{session[:user]}")
 
     erb :index
 end
@@ -285,11 +297,11 @@ get '/config' do
     uconf = {
         :user_config => {
             :lang => session[:lang],
-            :wss  => session[:wss],
+            :vnc_wss  => session[:vnc_wss],
         },
         :system_config => {
-            :marketplace_url => settings.config[:marketplace_url],
-            :vnc_proxy_port => settings.vnc.proxy_port
+            :marketplace_url => $conf[:marketplace_url],
+            :vnc_proxy_port => $vnc.proxy_port
         }
     }
 
@@ -297,22 +309,25 @@ get '/config' do
 end
 
 post '/config' do
-    begin
-        body = JSON.parse(request.body.read)
-    rescue Exception => e
-        msg = "Error parsing configuration JSON"
-        logger.error { msg }
-        logger.error { e.message }
-        [500, OpenNebula::Error.new(msg).to_json]
+    @SunstoneServer.perform_action('user',
+                               OpenNebula::User::SELF,
+                               request.body.read)
+
+    user = OpenNebula::User.new_with_id(
+                OpenNebula::User::SELF,
+                $cloud_auth.client(session[:user]))
+
+    rc = user.info
+    if OpenNebula.is_error?(rc)
+        logger.error { rc.message }
+        error 500, ""
     end
 
-    body.each do | key,value |
-        case key
-            when "lang" then session[:lang]= value
-            when "wss"  then session[:wss] = value
-        end
-    end
-    [204,""]
+    session[:lang] = user['TEMPLATE/LANG']
+    session[:vnc_wss] = user['TEMPLATE/VNC_WSS']
+    session[:default_view] = user['TEMPLATE/DEFAULT_VIEW']
+
+    [200, ""]
 end
 
 get '/vm/:id/log' do
@@ -386,7 +401,22 @@ end
 # Upload image
 ##############################################################################
 post '/upload'do
-    @SunstoneServer.upload(params[:img], request.env['rack.input'].path)
+
+    tmpfile = nil
+    rackinput = request.env['rack.input']
+
+    if (rackinput.class == Tempfile)
+        tmpfile = rackinput
+    elsif (rackinput.class == StringIO)
+        tmpfile = Tempfile.open('sunstone-upload')
+        tmpfile.write rackinput.read
+        tmpfile.flush
+    else
+        logger.error { "Unexpected rackinput class #{rackinput.class}" }
+        return [500, ""]
+    end
+
+    @SunstoneServer.upload(params[:img], tmpfile.path)
 end
 
 ##############################################################################
@@ -401,7 +431,7 @@ end
 ##############################################################################
 post '/vm/:id/startvnc' do
     vm_id = params[:id]
-    @SunstoneServer.startvnc(vm_id, settings.vnc)
+    @SunstoneServer.startvnc(vm_id, $vnc)
 end
 
 ##############################################################################
@@ -413,4 +443,5 @@ post '/:resource/:id/action' do
                                    request.body.read)
 end
 
-Sinatra::Application.run!
+Sinatra::Application.run! if(!defined?(WITH_RACKUP))
+
