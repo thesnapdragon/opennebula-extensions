@@ -470,7 +470,11 @@ function setLogin(){
     $("span.user-login").html(user_login_content);
 
     $("span.user-login a.logout").click(function(){
-        redirect = function(){window.location.href = "login";};
+        if ($.cookie("ssp_logoutpage")==undefined)
+            redirect = function(){window.location.href = "login";};
+        else {
+            redirect = function(){window.location.href = $.cookie("ssp_logoutpage");
+        }};
         switch(whichUI()){
         case "sunstone":
             OpenNebula.Auth.logout({success:redirect});
