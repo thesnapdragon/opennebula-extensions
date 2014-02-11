@@ -1,0 +1,326 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"fo",
+				"from"
+			],
+			[
+				"e",
+				"env"
+			],
+			[
+				"er",
+				"either"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "lib/sunstone/sunstone-server.rb",
+			"settings":
+			{
+				"buffer_size": 14012,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/ruby/cloud/CloudAuth/ssp_helper.rb",
+			"settings":
+			{
+				"buffer_size": 5226,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/ruby/cloud/CloudAuth/SSPCloudAuth.rb",
+			"settings":
+			{
+				"buffer_size": 3238,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"mini",
+				"View: Toggle Minimap"
+			],
+			[
+				"sideb",
+				"View: Toggle Open Files in Side Bar"
+			]
+		],
+		"width": 530.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/chef/projects/hexaa/opennebula/repo/opennebula_extensions/opennebula_ssp/4.4_shibboleth/lib/ruby/cloud/CloudAuth.rb",
+		"/home/chef/projects/hexaa/opennebula/repo/opennebula_extensions/opennebula_ssp/4.4_shibboleth/lib/sunstone/sunstone-server.rb",
+		"/home/chef/projects/hexaa/opennebula/repo/opennebula_extensions/opennebula_ssp/4.4_shibboleth/install.sh",
+		"/home/chef/projects/hexaa/opennebula/repo/opennebula_extensions/opennebula_ssp/4.4/lib/sunstone/public/js/login_ssp.js",
+		"/home/chef/.config/sublime-text-3/Packages/Terminal/Terminal.sublime-settings",
+		"/home/chef/.config/sublime-text-3/Packages/User/Terminal.sublime-settings"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"config",
+			"CloudL",
+			"@",
+			"session_string",
+			"self",
+			"configuration_file"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "lib/sunstone/sunstone-server.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14012,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3529,
+								3529
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1034.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "lib/ruby/cloud/CloudAuth/ssp_helper.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5226,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4786,
+								4786
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1469.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "lib/ruby/cloud/CloudAuth/SSPCloudAuth.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3238,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2855,
+								2855
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 463.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "project.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"~/projects/general.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

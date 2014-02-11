@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------------- #
-# Copyright 2002-2012, OpenNebula Project Leads (OpenNebula.org)             #
+# Copyright 2002-2013, OpenNebula Project (OpenNebula.org), C12G Labs        #
 #                                                                            #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may    #
 # not use this file except in compliance with the License. You may obtain    #
@@ -17,42 +17,28 @@
 # Helper class to call methods in SSPCloudAuth module
 class SSP_Helper
 
-    attr_accessor :one_xmlrpc, :one_auth, :one_location, :config
-
     # initalize some instance variable
-    def initialize
-        @one_location=''
+    def initialize(config, logger)
+        @config = config
+        @logger = logger
         
-        # get ssp configuration
-        if @one_location.empty?
-            etc_location="/etc/one"
-        else
-            etc_location=@one_location+"/etc"
-        end
+        one_xmlrpc = @config[:one_xmlrpc]
+        @one_auth = @config[:one_auth_for_ssp]
 
-        configuration_file=etc_location+"/sunstone-server.conf"
-
-        begin
-            @config = YAML.load_file(configuration_file)
-        rescue Exception => e
-            STDERR.puts "Error parsing config file #{configuration_file}: #{e.message}"
-            exit 1
-        end
-
-        @one_xmlrpc=@config[:one_xmlrpc]
-        @one_auth=@config[:one_auth_for_ssp]
+        @server = XMLRPC::Client.new2(one_xmlrpc)
+        credential = get_credential
+        @session_string = credential['username'] + ':' + credential['password']
     end 
 
     # creating new user
     # @param username username of user to be created
+    # @return userid of the created user
     def create_user(username)
-        server=XMLRPC::Client.new2(@one_xmlrpc)
-        
-        session_string=self.get_credential["username"]+":"+self.get_credential["password"]
-        
         begin
-            response=server.call("one.user.allocate",session_string,username,self.generate_password,'')
+            response = @server.call('one.user.allocate', @session_string, username, generate_password, '')
+            return response[1]
         rescue Exception => e
+            @logger.error{'SAML module error! Can not create new user!'}
             [false, e.message]
         end
     end
@@ -61,21 +47,18 @@ class SSP_Helper
     # @param username username's group will be updated
     # @param groupname user's group
     def update_group(username,groupname)
-        server=XMLRPC::Client.new2(@one_xmlrpc)
-        
-        session_string=self.get_credential["username"]+":"+self.get_credential["password"]
-
         if groupname.empty?
-            groupname='users'
+            groupname = 'users'
         end
 
-        if self.get_groupid(groupname).empty?
-            self.create_group(groupname)
+        if get_groupid(groupname).empty?
+            create_group(groupname)
         end
 
         begin
-            response=server.call("one.user.chgrp",session_string,self.get_userid(username).to_i,self.get_groupid(groupname).to_i)
+            response = @server.call('one.user.chgrp', @session_string, get_userid(username).to_i, get_groupid(groupname).to_i)
         rescue Exception => e
+            @logger.error{'SAML module error! Can not change users group!'}
             [false, e.message]
         end
     end
@@ -83,19 +66,17 @@ class SSP_Helper
     # get username and password from $ONE_AUTH file
     # @return username and password in a Hash
     def get_credential
-        credential=Hash.new
+        credential = Hash.new
         
         if File.readable?(@one_auth)
             File.open(@one_auth, 'r') do |line| 
-                auth_line=line.gets.strip
-                auth_line=auth_line.split(':')
+                auth_line = line.gets.strip.split(':')
 
-                credential["username"]=auth_line[0]
-                credential["password"]=auth_line[1]
+                credential['username'] = auth_line[0]
+                credential['password'] = auth_line[1]
             end
         else
-            # TODO: write error into log (SSP_Helper ERROR: $ONE_AUTH file is not readable)
-            raise "one auth file not readable"
+            @logger.error{'SAML module error! $ONE_AUTH file is not readable!'}
         end
         return credential
     end
@@ -104,48 +85,39 @@ class SSP_Helper
     # @param username username
     # @return user's ID
     def get_userid(username)
-        server=XMLRPC::Client.new2(@one_xmlrpc)
-        
-        session_string=self.get_credential["username"]+":"+self.get_credential["password"]
-        
         begin
-            response=server.call("one.userpool.info",session_string)
+            response = @server.call('one.userpool.info', @session_string)
         rescue Exception => e
+            @logger.error{'SAML module error! Can not get users id!'}
             [false, e.message]
         end
 
-        xml=Nokogiri::XML(response[1])
-        return xml.xpath('//USER[NAME=\''+username+'\']/ID').inner_text
+        xml = Nokogiri::XML(response[1])
+        return xml.xpath('//USER[NAME=\'' + username + '\']/ID').inner_text
     end
 
     # get group ID of a group
     # @param groupname groupname
     # @return group's ID
     def get_groupid(groupname)
-        server=XMLRPC::Client.new2(@one_xmlrpc)
-        
-        session_string=self.get_credential["username"]+":"+self.get_credential["password"]
-        
         begin
-            response=server.call("one.grouppool.info",session_string)
+            response = @server.call('one.grouppool.info', @session_string)
         rescue Exception => e
+            @logger.error{'SAML module error! Can not get users group id!'}
             [false, e.message]
         end
 
-        xml=Nokogiri::XML(response[1])
-        return xml.xpath('//GROUP[NAME=\''+groupname+'\']/ID').inner_text
+        xml = Nokogiri::XML(response[1])
+        return xml.xpath('//GROUP[NAME=\'' + groupname + '\']/ID').inner_text
     end
 
     # creating new group
     # @param groupname groupname of group to be created
     def create_group(groupname)
-        server=XMLRPC::Client.new2(@one_xmlrpc)
-        
-        session_string=self.get_credential["username"]+":"+self.get_credential["password"]
-        
         begin
-            response=server.call("one.group.allocate",session_string,groupname)
+            response = @server.call('one.group.allocate', @session_string, groupname)
         rescue Exception => e
+            @logger.error{'SAML module error! Can not create new group!'}
             [false, e.message]
         end
     end
@@ -153,7 +125,7 @@ class SSP_Helper
     # create random password for new users
     # @return random password
     def generate_password
-        return rand(36**20).to_s(36)
+        return rand(36 ** 20).to_s(36)
     end
     
     def get_groups(entitlement_str)

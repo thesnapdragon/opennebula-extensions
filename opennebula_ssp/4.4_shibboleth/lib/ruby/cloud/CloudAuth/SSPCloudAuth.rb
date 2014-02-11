@@ -49,14 +49,15 @@ module SSPCloudAuth
         if auth.provided? && auth.basic?
 
             # create helper
-            ssp = SSP_Helper.new
+            ssp = SSP_Helper.new(@conf, @logger)
 
             # get username from session
             username = params['ssp_username']
-            
+
             # if new user wants to login then create it
-            if ssp.get_userid(username).empty?
-                ssp.create_user(username)
+            userid = ssp.get_userid(username)
+            if userid.empty?
+                userid = ssp.create_user(username)
             end
 
 			# get groupname from entitlement
@@ -67,7 +68,7 @@ module SSPCloudAuth
             groupname = groups.first
 
             # update user's group
-            ssp.update_group(username,groupname)
+            ssp.update_group(username, groupname)
 
             return username
         end
