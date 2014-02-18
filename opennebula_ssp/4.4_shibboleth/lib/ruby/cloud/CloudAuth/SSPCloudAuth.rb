@@ -23,6 +23,7 @@ require 'rubygems'
 require 'nokogiri'
 require 'json'
 require 'net/http'
+require 'set'
 
 # @mainpage  SSP Cloud Auth module for OpenNebula Sunstone
 #
@@ -60,15 +61,15 @@ module SSPCloudAuth
                 userid = ssp.create_user(username)
             end
 
-			# get groupname from entitlement
-            if !params['ssp_entitlement'].nil?
-				groups = ssp.get_groups(params['ssp_entitlement'])
-            end
-            
-            groupname = groups.first
-
-            # update user's group
-            ssp.update_group(username, groupname)
+            if !params['ssp_entitlement'].empty?
+                # get groupnames from entitlement
+				groupnames = ssp.get_groups(params['ssp_entitlement'])
+                # add user to given groups remove him from the old groups
+                ssp.handle_groups(username, groupnames)
+            else
+                # if new user does not have any entitlement then refuse to login
+                return nil
+            end            
 
             return username
         end

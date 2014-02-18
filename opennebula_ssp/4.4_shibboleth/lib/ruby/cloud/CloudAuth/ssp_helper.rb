@@ -28,6 +28,8 @@ class SSP_Helper
         @server = XMLRPC::Client.new2(one_xmlrpc)
         credential = get_credential
         @session_string = credential['username'] + ':' + credential['password']
+
+        @userid = ""
     end 
 
     # creating new user
@@ -46,21 +48,12 @@ class SSP_Helper
     # update user's group or create it's group
     # @param username username's group will be updated
     # @param groupname user's group
-    def update_group(username,groupname)
-        if groupname.empty?
-            groupname = 'users'
-        end
-
-        if get_groupid(groupname).empty?
-            create_group(groupname)
-        end
-
-        begin
-            response = @server.call('one.user.chgrp', @session_string, get_userid(username).to_i, get_groupid(groupname).to_i)
-        rescue Exception => e
-            @logger.error{'SAML module error! Can not change users group!'}
-            [false, e.message]
-        end
+    def create_groups(groupnames)
+        groupnames.map {|groupname|
+            if get_groupid(groupname).empty?
+                create_group(groupname)
+            end
+        }
     end
 
     # get username and password from $ONE_AUTH file
@@ -130,6 +123,52 @@ class SSP_Helper
     
     def get_groups(entitlement_str)
 		return entitlement_str.split(';').map {|x| x.split(':').last}
+    end
+
+    def handle_groups(username, groupnames)
+        @userid = get_userid(username).to_i
+        begin
+            response = @server.call('one.user.info', @session_string, @userid)
+        rescue Exception => e
+            @logger.error{'SAML module error! Can not get user info!'}
+            [false, e.message]
+        end
+
+        xml = Nokogiri::XML(response[1])
+        old_groupids = Set.new xml.xpath('//GROUPS/ID').map {|x| x.inner_text.to_i}
+        create_groups(groupnames)
+        new_groupids = Set.new groupnames.map {|groupname| get_groupid(groupname).to_i}
+
+        groups_to_remove = (old_groupids - new_groupids).to_a
+        groups_to_add = (new_groupids - old_groupids).to_a
+
+        if !groups_to_add.empty?
+            primary_groupid = groups_to_add.shift
+            begin
+                response = @server.call('one.user.chgrp', @session_string, @userid, primary_groupid)
+            rescue Exception => e
+                @logger.error{'SAML module error! Can not set users primary group!'}
+                [false, e.message]
+            end
+        end
+
+        groups_to_add.map {|new_groupid|
+            begin
+                response = @server.call('one.user.addgroup', @session_string, @userid, new_groupid)
+            rescue Exception => e
+                @logger.error{'SAML module error! Can not add user to secondary group!'}
+                [false, e.message]
+            end
+        }
+
+        groups_to_remove.map {|old_groupid|
+            begin
+                response = @server.call('one.user.delgroup', @session_string, @userid, old_groupid)
+            rescue Exception => e
+                @logger.error{'SAML module error! Can not remove user from secondary group!'}
+                [false, e.message]
+            end
+        }
     end
 
 end
