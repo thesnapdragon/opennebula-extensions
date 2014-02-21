@@ -17,7 +17,7 @@
 DIR=File.dirname(__FILE__)
 $: << DIR
 
-require 'ssp_helper.rb'
+require 'shib_helper.rb'
 require 'xmlrpc/client'
 require 'rubygems'
 require 'nokogiri'
@@ -29,42 +29,36 @@ require 'set'
 #
 # @section desc Description
 # This is a new authentication module for OpenNebula Sunstone.
-# SSP Cloud Auth module is useful, when a SingleSignOn is login needed, where the Service Provider realised with a Shibboleth SP.
+# Shib Cloud Auth module is useful, when a SingleSignOn login is needed, where the Service Provider realised with a Shibboleth SP.
 # In this case, login handled by Shibboleth and so the Sunstone 
 # auth module (this one) controls the authorization of the users. \n
-# If a new user wants to login, this module creates a new account for the user. The user's primary and secondary groups also created from the entitlements that come to Shibboleth in a SAML message.
+# If a new user wants to login, this module creates a new account for the user. The user's primary group and his secondary groups also created from the entitlements that come to Shibboleth in a SAML message.
 # 
 # @section conf Configuration
 # Configuration file is at the end of the main Sunstone configuration file (sunstone-server.conf).
-module SSPCloudAuth
-    # original do_auth function
-    # gets login datas from SimpleSAMLphp and authenticates the user
-    # if new user wants to login, then creates its user
-    # updates user's group
-    # @param params['ssp_sessionid'] SSP session id from cookie
-    # @return username if authentication success
+module ShibCloudAuth
     def do_auth(env, params={})
         auth = Rack::Auth::Basic::Request.new(env)
 
         if auth.provided? && auth.basic?
 
             # create helper
-            ssp = SSP_Helper.new(@conf, @logger)
+            shib = Shib_Helper.new(@conf, @logger)
 
             # get username from session
-            username = params['ssp_username']
+            username = params['shib_username']
 
             # if new user wants to login then create it
-            userid = ssp.get_userid(username)
+            userid = shib.get_userid(username)
             if userid.empty?
-                userid = ssp.create_user(username)
+                userid = shib.create_user(username)
             end
 
-            if !params['ssp_entitlement'].empty?
+            if !params['shib_entitlement'].empty?
                 # get groupnames from entitlement
-				groupnames = ssp.get_groups(params['ssp_entitlement'])
+				groupnames = shib.get_groups(params['shib_entitlement'])
                 # add user to given groups remove him from the old groups
-                ssp.handle_groups(username, groupnames)
+                shib.handle_groups(username, groupnames)
             else
                 # if new user does not have any entitlement then refuse to login
                 return nil

@@ -490,10 +490,10 @@ function setLogin(){
     $("span.user-login").html(user_login_content);
 
     $("span.user-login a.logout").click(function(){
-		if ($.cookie("ssp_logoutpage")==undefined)
+		if ($.cookie("shib_logoutpage")==undefined)
             redirect = function(){window.location.href = "login";};
         else {
-            redirect = function(){window.location.href = $.cookie("ssp_logoutpage");
+            redirect = function(){window.location.href = $.cookie("shib_logoutpage");
         }};
         switch(whichUI()){
         case "sunstone":

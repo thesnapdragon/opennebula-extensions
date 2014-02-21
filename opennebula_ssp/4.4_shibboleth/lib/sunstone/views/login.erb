@@ -11,8 +11,8 @@
     <![endif]-->
 
     <script type="text/javascript" src="js/opennebula.js"></script>
-    <% if settings.config[:auth] == "ssp" %>
-        <script type="text/javascript" src="js/login_ssp.js"></script>
+    <% if settings.config[:auth] == "shib" %>
+        <script type="text/javascript" src="js/login_shib.js"></script>
     <% else %>
         <script type="text/javascript" src="js/login.js"></script>
     <% end %>
@@ -24,8 +24,8 @@
 
 <% if settings.config[:auth] == "x509" %>
   <%= erb :_login_x509 %>
-<% elsif settings.config[:auth] == "ssp" %>
-  <%= erb :_login_ssp %>
+<% elsif settings.config[:auth] == "shib" %>
+  <%= erb :_login_shib %>
 <% else %>
   <%= erb :_login_standard %>
 <% end %>

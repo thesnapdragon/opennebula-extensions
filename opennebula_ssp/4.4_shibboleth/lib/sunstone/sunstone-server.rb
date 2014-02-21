@@ -141,10 +141,10 @@ helpers do
 
     def build_session
         begin
-            if $conf[:auth] == 'ssp'
-				params['ssp_username'] = request.env[$conf[:ssp_username]]
-				params['ssp_entitlement'] = request.env[$conf[:ssp_entitlement]]
-                response.set_cookie('ssp_logoutpage',$conf[:ssp_host] + $conf[:ssp_logoutpage])
+            if $conf[:auth] == 'shib'
+				params['shib_username'] = request.env[$conf[:shib_username]]
+				params['shib_entitlement'] = request.env[$conf[:shib_entitlement]]
+                response.set_cookie('shib_logoutpage',$conf[:shib_host] + $conf[:shib_logoutpage])
             end
             result = $cloud_auth.auth(request.env, params)
         rescue Exception => e

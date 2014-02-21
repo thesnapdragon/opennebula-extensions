@@ -14,8 +14,8 @@
 # limitations under the License.                                             #
 #--------------------------------------------------------------------------- #
 
-# Helper class to call methods in SSPCloudAuth module
-class SSP_Helper
+# Helper class to call methods in ShibCloudAuth module
+class Shib_Helper
 
     # initalize some instance variable
     def initialize(config, logger)
@@ -23,7 +23,7 @@ class SSP_Helper
         @logger = logger
         
         one_xmlrpc = @config[:one_xmlrpc]
-        @one_auth = @config[:one_auth_for_ssp]
+        @one_auth = @config[:one_auth_for_shib]
 
         @server = XMLRPC::Client.new2(one_xmlrpc)
         credential = get_credential
@@ -96,11 +96,17 @@ class SSP_Helper
 
         groups_to_remove = (old_groupids - new_groupids).to_a
         groups_to_add = (new_groupids - old_groupids).to_a
+        @logger.debug{groups_to_add.to_a.join(",")}
+        @logger.debug{groups_to_remove.to_a.join(",")}
 
         if !groups_to_add.empty?
             primary_groupid = groups_to_add.shift
+            @logger.debug{primary_groupid.to_a.join(",")}
             call_xmlrpc('one.user.chgrp', 'SAML module error! Can not set users primary group!', userid, primary_groupid)
         end
+        
+        @logger.debug{groups_to_add.to_a.join(",")}
+        @logger.debug{groups_to_remove.to_a.join(",")}
 
         groups_to_add.map {|new_groupid|
             call_xmlrpc('one.user.addgroup', 'SAML module error! Can not add user to secondary group!', userid, new_groupid)
