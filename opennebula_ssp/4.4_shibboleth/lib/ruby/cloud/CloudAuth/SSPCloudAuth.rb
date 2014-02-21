@@ -25,15 +25,14 @@ require 'json'
 require 'net/http'
 require 'set'
 
-# @mainpage  SSP Cloud Auth module for OpenNebula Sunstone
+# @mainpage  Shibboleth Cloud Auth module for OpenNebula Sunstone
 #
 # @section desc Description
-# This is a new authentication module for OpenNebula Sunstone. In its name SSP means 
-# Simple SAML PHP (http://simplesamlphp.org/).
-# SSP Cloud Auth module is useful, when a SingleSignOn is login needed, which service is realised 
-# with SimpleSAMLphp. In this case, login handled by SimpleSAMLphp and so the Sunstone 
-# auth module (this one) makes only the identification of the users. \n
-# If new user wants to login, this module creates a new account for the user.
+# This is a new authentication module for OpenNebula Sunstone.
+# SSP Cloud Auth module is useful, when a SingleSignOn is login needed, where the Service Provider realised with a Shibboleth SP.
+# In this case, login handled by Shibboleth and so the Sunstone 
+# auth module (this one) controls the authorization of the users. \n
+# If a new user wants to login, this module creates a new account for the user. The user's primary and secondary groups also created from the entitlements that come to Shibboleth in a SAML message.
 # 
 # @section conf Configuration
 # Configuration file is at the end of the main Sunstone configuration file (sunstone-server.conf).

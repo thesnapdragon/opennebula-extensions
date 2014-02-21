@@ -28,33 +28,7 @@ class SSP_Helper
         @server = XMLRPC::Client.new2(one_xmlrpc)
         credential = get_credential
         @session_string = credential['username'] + ':' + credential['password']
-
-        @userid = ""
     end 
-
-    # creating new user
-    # @param username username of user to be created
-    # @return userid of the created user
-    def create_user(username)
-        begin
-            response = @server.call('one.user.allocate', @session_string, username, generate_password, '')
-            return response[1]
-        rescue Exception => e
-            @logger.error{'SAML module error! Can not create new user!'}
-            [false, e.message]
-        end
-    end
-
-    # update user's group or create it's group
-    # @param username username's group will be updated
-    # @param groupname user's group
-    def create_groups(groupnames)
-        groupnames.map {|groupname|
-            if get_groupid(groupname).empty?
-                create_group(groupname)
-            end
-        }
-    end
 
     # get username and password from $ONE_AUTH file
     # @return username and password in a Hash
@@ -74,17 +48,27 @@ class SSP_Helper
         return credential
     end
 
+    # creating new user
+    # @param username username of user to be created
+    def create_user(username)
+        call_xmlrpc('one.user.allocate', 'SAML module error! Can not create new user!', username, generate_password, '')[1]
+    end
+
+    # create groups if they do not exists
+    # @param groupnames groupnames to be created
+    def create_groups(groupnames)
+        groupnames.map {|groupname|
+            if get_groupid(groupname).empty?
+                call_xmlrpc('one.group.allocate', 'SAML module error! Can not create new group!', groupname)
+            end
+        }
+    end
+
     # get user's ID
     # @param username username
     # @return user's ID
     def get_userid(username)
-        begin
-            response = @server.call('one.userpool.info', @session_string)
-        rescue Exception => e
-            @logger.error{'SAML module error! Can not get users id!'}
-            [false, e.message]
-        end
-
+        response = call_xmlrpc('one.userpool.info', 'SAML module error! Can not get userpool info!')
         xml = Nokogiri::XML(response[1])
         return xml.xpath('//USER[NAME=\'' + username + '\']/ID').inner_text
     end
@@ -93,48 +77,19 @@ class SSP_Helper
     # @param groupname groupname
     # @return group's ID
     def get_groupid(groupname)
-        begin
-            response = @server.call('one.grouppool.info', @session_string)
-        rescue Exception => e
-            @logger.error{'SAML module error! Can not get users group id!'}
-            [false, e.message]
-        end
-
+        response = call_xmlrpc('one.grouppool.info', 'SAML module error! Can not get users group id!')
         xml = Nokogiri::XML(response[1])
         return xml.xpath('//GROUP[NAME=\'' + groupname + '\']/ID').inner_text
     end
 
-    # creating new group
-    # @param groupname groupname of group to be created
-    def create_group(groupname)
-        begin
-            response = @server.call('one.group.allocate', @session_string, groupname)
-        rescue Exception => e
-            @logger.error{'SAML module error! Can not create new group!'}
-            [false, e.message]
-        end
-    end
-
-    # create random password for new users
-    # @return random password
-    def generate_password
-        return rand(36 ** 20).to_s(36)
-    end
-    
-    def get_groups(entitlement_str)
-		return entitlement_str.split(';').map {|x| x.split(':').last}
-    end
-
+    # handle user's group
+    # @param username user's name
+    # @param groupnames groupnames in which the user belongs
     def handle_groups(username, groupnames)
-        @userid = get_userid(username).to_i
-        begin
-            response = @server.call('one.user.info', @session_string, @userid)
-        rescue Exception => e
-            @logger.error{'SAML module error! Can not get user info!'}
-            [false, e.message]
-        end
+        userid = get_userid(username).to_i
+        userinfo = call_xmlrpc('one.user.info', 'SAML module error! Can not get user info!', userid)[1]
 
-        xml = Nokogiri::XML(response[1])
+        xml = Nokogiri::XML(userinfo)
         old_groupids = Set.new xml.xpath('//GROUPS/ID').map {|x| x.inner_text.to_i}
         create_groups(groupnames)
         new_groupids = Set.new groupnames.map {|groupname| get_groupid(groupname).to_i}
@@ -144,31 +99,52 @@ class SSP_Helper
 
         if !groups_to_add.empty?
             primary_groupid = groups_to_add.shift
-            begin
-                response = @server.call('one.user.chgrp', @session_string, @userid, primary_groupid)
-            rescue Exception => e
-                @logger.error{'SAML module error! Can not set users primary group!'}
-                [false, e.message]
-            end
+            call_xmlrpc('one.user.chgrp', 'SAML module error! Can not set users primary group!', userid, primary_groupid)
         end
 
         groups_to_add.map {|new_groupid|
-            begin
-                response = @server.call('one.user.addgroup', @session_string, @userid, new_groupid)
-            rescue Exception => e
-                @logger.error{'SAML module error! Can not add user to secondary group!'}
-                [false, e.message]
-            end
+            call_xmlrpc('one.user.addgroup', 'SAML module error! Can not add user to secondary group!', userid, new_groupid)
         }
 
         groups_to_remove.map {|old_groupid|
-            begin
-                response = @server.call('one.user.delgroup', @session_string, @userid, old_groupid)
-            rescue Exception => e
-                @logger.error{'SAML module error! Can not remove user from secondary group!'}
-                [false, e.message]
-            end
+            call_xmlrpc('one.user.delgroup', 'SAML module error! Can not remove user from secondary group!', userid, old_groupid)
         }
+    end
+
+    # call an xml rpc method
+    # @param command xml rpc command to call
+    # @param errormsg error message to log when call fails
+    # xmlrpc_args vararg that contains all the xml rpc method parameters
+    # @return xml rpc response
+    def call_xmlrpc(command, errormsg, *xmlrpc_args)
+        begin
+            case xmlrpc_args.length
+            when 0
+                @server.call(command, @session_string)
+            when 1
+                @server.call(command, @session_string, xmlrpc_args[0])
+            when 2
+                @server.call(command, @session_string, xmlrpc_args[0], xmlrpc_args[1])
+            else
+                @logger.error{'SAML module error! Not supported XMLRPC call!'}
+            end
+        rescue Exception => e
+            @logger.error{errormsg}
+            [false, e.message]
+        end
+    end
+
+    # get array of groupnames created from saml entitlement string
+    # @param entitlement_str saml entitlement string
+    # @return array of groupnames
+    def get_groups(entitlement_str)
+        return entitlement_str.split(';').map {|x| x.split(':').last}
+    end
+
+    # create random password for new users
+    # @return random password
+    def generate_password
+        return rand(36 ** 20).to_s(36)
     end
 
 end
