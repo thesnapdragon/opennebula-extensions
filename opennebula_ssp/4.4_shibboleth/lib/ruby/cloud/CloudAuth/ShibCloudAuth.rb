@@ -23,7 +23,6 @@ require 'rubygems'
 require 'nokogiri'
 require 'json'
 require 'net/http'
-require 'set'
 
 # @mainpage  Shibboleth Cloud Auth module for OpenNebula Sunstone
 #

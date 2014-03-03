@@ -87,26 +87,23 @@ class Shib_Helper
     # @param groupnames groupnames in which the user belongs
     def handle_groups(username, groupnames)
         userid = get_userid(username).to_i
-        userinfo = call_xmlrpc('one.user.info', 'SAML module error! Can not get user info!', userid)[1]
-
-        xml = Nokogiri::XML(userinfo)
-        old_groupids = Set.new xml.xpath('//GROUPS/ID').map {|x| x.inner_text.to_i}
         create_groups(groupnames)
-        new_groupids = Set.new groupnames.map {|groupname| get_groupid(groupname).to_i}
+        new_groupids = groupnames.map {|groupname| get_groupid(groupname).to_i}
+        preference_listids = @config[:shib_entitlement_priority].map {|preference| get_groupid(preference).to_i}
 
-        groups_to_remove = (old_groupids - new_groupids).to_a
-        groups_to_add = (new_groupids - old_groupids).to_a
-        @logger.debug{groups_to_add.to_a.join(",")}
-        @logger.debug{groups_to_remove.to_a.join(",")}
-
-        if !groups_to_add.empty?
-            primary_groupid = groups_to_add.shift
-            @logger.debug{primary_groupid.to_a.join(",")}
-            call_xmlrpc('one.user.chgrp', 'SAML module error! Can not set users primary group!', userid, primary_groupid)
+        primary_groupid = (preference_listids & new_groupids).shift
+        if primary_groupid.nil?
+            primary_groupid = new_groupids.shift
         end
+        new_groupids.delete(primary_groupid)
+        call_xmlrpc('one.user.chgrp', 'SAML module error! Can not set users primary group!', userid, primary_groupid)
         
-        @logger.debug{groups_to_add.to_a.join(",")}
-        @logger.debug{groups_to_remove.to_a.join(",")}
+        userinfo = call_xmlrpc('one.user.info', 'SAML module error! Can not get user info!', userid)[1]
+        xml = Nokogiri::XML(userinfo)
+        old_groupids = xml.xpath('//GROUPS/ID').map {|x| x.inner_text.to_i}
+
+        groups_to_remove = (old_groupids - new_groupids)
+        groups_to_add = (new_groupids - old_groupids)
 
         groups_to_add.map {|new_groupid|
             call_xmlrpc('one.user.addgroup', 'SAML module error! Can not add user to secondary group!', userid, new_groupid)
