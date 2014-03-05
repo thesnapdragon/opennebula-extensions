@@ -1,6 +1,6 @@
 #!/bin/bash
-# install scripts for SimpleSAMLphp OpenNebula Connector
-# Milán Unicsovics, u.milan at gmail dot com
+# install scripts for Shibboleth OpenNebula Connector
+# Milán Unicsovics, milan.unicsovics at sztaki dot mta dot hu
 # usage: ./install.sh
 
 sudo cp -r etc/* /etc/one/

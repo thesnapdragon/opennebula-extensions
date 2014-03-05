@@ -83,14 +83,14 @@ class Shib_Helper
     end
 
     # handle user's group
-    # @param username user's name
+    # @param userid user's ID
     # @param groupnames groupnames in which the user belongs
-    def handle_groups(username, groupnames)
-        userid = get_userid(username).to_i
+    def handle_groups(userid, groupnames)
         create_groups(groupnames)
         new_groupids = groupnames.map {|groupname| get_groupid(groupname).to_i}
         preference_listids = @config[:shib_entitlement_priority].map {|preference| get_groupid(preference).to_i}
 
+        # make the first valid group from the preference list primary group of the user
         primary_groupid = (preference_listids & new_groupids).shift
         if primary_groupid.nil?
             primary_groupid = new_groupids.shift
@@ -102,22 +102,29 @@ class Shib_Helper
         xml = Nokogiri::XML(userinfo)
         old_groupids = xml.xpath('//GROUPS/ID').map {|x| x.inner_text.to_i}
 
+        # collect the secondary groups from the user have to be removed or added
         groups_to_remove = (old_groupids - new_groupids)
         groups_to_add = (new_groupids - old_groupids)
 
-        groups_to_add.map {|new_groupid|
-            call_xmlrpc('one.user.addgroup', 'SAML module error! Can not add user to secondary group!', userid, new_groupid)
-        }
+        # add user to the new secondary groups
+        if !groups_to_add.empty?
+            groups_to_add.map {|new_groupid|
+                call_xmlrpc('one.user.addgroup', 'SAML module error! Can not add user to secondary group!', userid, new_groupid)
+            }
+        end
 
-        groups_to_remove.map {|old_groupid|
-            call_xmlrpc('one.user.delgroup', 'SAML module error! Can not remove user from secondary group!', userid, old_groupid)
-        }
+        # remove user from the old secondary groups
+        if !groups_to_remove.empty?
+            groups_to_remove.map {|old_groupid|
+                call_xmlrpc('one.user.delgroup', 'SAML module error! Can not remove user from secondary group!', userid, old_groupid)
+            }
+        end
     end
 
     # call an xml rpc method
     # @param command xml rpc command to call
     # @param errormsg error message to log when call fails
-    # xmlrpc_args vararg that contains all the xml rpc method parameters
+    # @param xmlrpc_args vararg that contains all the xml rpc method parameters
     # @return xml rpc response
     def call_xmlrpc(command, errormsg, *xmlrpc_args)
         begin
@@ -137,8 +144,8 @@ class Shib_Helper
         end
     end
 
-    # get array of groupnames created from saml entitlement string
-    # @param entitlement_str saml entitlement string
+    # get array of groupnames created from SAML entitlement string
+    # @param entitlement_str SAML entitlement string
     # @return array of groupnames
     def get_groups(entitlement_str)
         return entitlement_str.split(';').map {|x| x.split(':').last}

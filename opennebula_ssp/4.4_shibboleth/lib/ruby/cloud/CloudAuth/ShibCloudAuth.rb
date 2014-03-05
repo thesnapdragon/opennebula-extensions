@@ -21,8 +21,6 @@ require 'shib_helper.rb'
 require 'xmlrpc/client'
 require 'rubygems'
 require 'nokogiri'
-require 'json'
-require 'net/http'
 
 # @mainpage  Shibboleth Cloud Auth module for OpenNebula Sunstone
 #
@@ -35,6 +33,30 @@ require 'net/http'
 # 
 # @section conf Configuration
 # Configuration file is at the end of the main Sunstone configuration file (sunstone-server.conf).
+# Some configuration option is selfdescriptive (like :shib_host, :shib_logoutpage, :one_auth_for_shib). The rest of the options modify the behaviour of this authentication module.
+# First an Apache HTTP VirtualHost location have to be created, a possible example can be see here:
+# <Location /one>
+#        # shibboleth shield 
+#        AllowOverride all 
+#        Order allow,deny 
+#        Allow from all 
+#        AuthType shibboleth
+#        require valid-user
+#        ShibUseHeaders On
+#        ShibRequireSession On
+# </Location>
+#
+# When OpenNebula authorizes a user this module uses some Apache HTTP header variable, where the SAML message datas are stored. After a successful authentication from the Apache HTTP header variables this module can read the actual user's datas.
+# Example:
+# :shib_username: HTTP_EPPN
+# :shib_entitlement: HTTP_ENTITLEMENT
+# :shib_entitlement_priority:
+#    - admin
+#    - alpha
+#    - bravo
+#
+# In the example above the name of the user are stored in the HTTP_EPPN header variable, and the entitlements / privileges are stored in the HTTP_ENTITLEMENT header variable. The primary group of the user is calculated from the shib_entitlement_priority list, where the first existing groupname will be his primary group.
+
 module ShibCloudAuth
     def do_auth(env, params={})
         auth = Rack::Auth::Basic::Request.new(env)
@@ -48,16 +70,16 @@ module ShibCloudAuth
             username = params['shib_username']
 
             # if new user wants to login then create it
-            userid = shib.get_userid(username)
-            if userid.empty?
-                userid = shib.create_user(username)
+            userid = shib.get_userid(username).to_i
+            if userid == 0
+                userid = shib.create_user(username).to_i
             end
 
             if !params['shib_entitlement'].empty?
                 # get groupnames from entitlement
 				groupnames = shib.get_groups(params['shib_entitlement'])
                 # add user to given groups remove him from the old groups
-                shib.handle_groups(username, groupnames)
+                shib.handle_groups(userid, groupnames)
             else
                 # if new user does not have any entitlement then refuse to login
                 return nil
