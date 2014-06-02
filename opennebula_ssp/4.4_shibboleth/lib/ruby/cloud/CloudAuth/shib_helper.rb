@@ -135,6 +135,8 @@ class Shib_Helper
                 @server.call(command, @session_string, xmlrpc_args[0])
             when 2
                 @server.call(command, @session_string, xmlrpc_args[0], xmlrpc_args[1])
+            when 3
+                @server.call(command, @session_string, xmlrpc_args[0], xmlrpc_args[1], xmlrpc_args[2])
             else
                 @logger.error{'SAML module error! Not supported XMLRPC call!'}
             end
