@@ -62,6 +62,11 @@ module ShibCloudAuth
         auth = Rack::Auth::Basic::Request.new(env)
 
         if auth.provided? && auth.basic?
+            # if username or entitlement is not provided then refuse the login
+            if params['shib_username'].empty? || params['shib_entitlement'].empty?
+                @logger.error{'SAML module error! Header variables are missing!'}
+                return nil
+            end
 
             # create helper
             shib = Shib_Helper.new(@conf, @logger)
@@ -75,15 +80,10 @@ module ShibCloudAuth
                 userid = shib.create_user(username).to_i
             end
 
-            if !params['shib_entitlement'].empty?
-                # get groupnames from entitlement
-				groupnames = shib.get_groups(params['shib_entitlement'])
-                # add user to given groups remove him from the old groups
-                shib.handle_groups(userid, groupnames)
-            else
-                # if new user does not have any entitlement then refuse to login
-                return nil
-            end            
+            # get groupnames from entitlement
+            groupnames = shib.get_groups(params['shib_entitlement'])
+            # add user to given groups remove him from the old groups
+            shib.handle_groups(userid, groupnames)
 
             return username
         end
